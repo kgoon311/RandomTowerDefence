@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FloorManager : MonoBehaviour
 {
+    [Header("Floor")]
     [SerializeField] private GameObject FirstDigFloor;
     [SerializeField] private GameObject EndDigFloor;
     [SerializeField] private bool DigEnd;
@@ -12,16 +13,23 @@ public class FloorManager : MonoBehaviour
     private List<GameObject> DiggingFloor = new List<GameObject>();
     private LayerMask mask;
 
+    [Header("MousePointer")]
+    [SerializeField] GameObject M_Object;
+    [SerializeField] Sprite[] M_Images = new Sprite[2];
+    private SpriteRenderer M_Sprite;
+
+
     void Start()
     {
-        mask = LayerMask.GetMask("Floor");
-        ResetFloor();
+        mask = LayerMask.GetMask("Floor") | LayerMask.GetMask("Turret");
+        M_Sprite = M_Object.GetComponent<SpriteRenderer>();
+/*        ResetFloor();*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && DigEnd == false)
+       /* if (Input.GetMouseButtonDown(0) && DigEnd == false)
         {
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(pos, transform.forward, 100000, mask);
@@ -33,6 +41,23 @@ public class FloorManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R) && DigEnd == false)
         {
             ResetFloor();
+        }*/
+        MousePointerSpawn();
+    }
+    void MousePointerSpawn()
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = new Vector2(Mathf.Round(mousePosition.x), Mathf.Round(mousePosition.y));
+        M_Object.transform.position = mousePosition;
+
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition,transform.forward,100f,mask);
+        if(hit )/* EndDigFloor.transform.position != mousePosition)*/
+        {
+            M_Sprite.sprite = M_Images[1];
+        }
+        else
+        {
+            M_Sprite.sprite = M_Images[0];
         }
     }
     void ResetFloor()
