@@ -19,7 +19,11 @@ public class TurretStats
     public ETurretType type;
     public float Power;
     public float AttackSpeed;
+    public List<int> Buf_Power;
+    public List<int> Buf_ATKSpeed;
     public int Rank;
+    public float Range;
+
 }
 [System.Serializable]
 public class Turrets
@@ -46,12 +50,12 @@ public class TurretManager : MonoBehaviour
     }
     public void AddScript(Vector3 SpawnPos,int Rank)
     {
-        ETurretType type = (ETurretType)Random.Range(0, (int)ETurretType.END);
+        ETurretType type = (ETurretType)Random.Range(0, 1/*(int)ETurretType.END*/);
         Missile TurretObject;
         switch (type)
         {
             case ETurretType.Missile:
-                TurretObject = Instantiate(SpawnTurret,SpawnPos,transform.rotation).AddComponent<Missile>();
+                TurretObject = Instantiate(SpawnTurret,SpawnPos,transform.rotation).AddComponent<Missile>(); 
                 TurretObject.TurretType = TurretList.Missile[Rank];
                 break;
             case ETurretType.Electricity:

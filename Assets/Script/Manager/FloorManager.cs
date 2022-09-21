@@ -141,7 +141,7 @@ public class FloorManager : MonoBehaviour
             M_Sprite.sprite = M_Images[0];
         }
         else if (DigEnd == true && SelectTurret == false && TurretHit)//터렛 설치 선택이 아닐떄 터렛을 누를 수 있을떄
-        {
+        { 
             M_Sprite.sprite = M_Images[0];
         }
         else

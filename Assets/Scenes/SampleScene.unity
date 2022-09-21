@@ -1358,149 +1358,254 @@ MonoBehaviour:
     - type: 0
       Power: 5
       AttackSpeed: 3
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 10
     - type: 0
       Power: 10
       AttackSpeed: 3
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 1
+      Range: 0
     - type: 0
       Power: 15
       AttackSpeed: 3
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 2
+      Range: 0
     - type: 0
       Power: 20
       AttackSpeed: 3
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 3
+      Range: 0
     - type: 0
       Power: 30
       AttackSpeed: 3
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 4
+      Range: 0
     Electricity:
     - type: 1
       Power: 1
       AttackSpeed: 1.5
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 1
       Power: 2
       AttackSpeed: 1.5
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 1
+      Range: 0
     - type: 1
       Power: 3.5
       AttackSpeed: 1.5
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 2
+      Range: 0
     - type: 1
       Power: 5
       AttackSpeed: 1.2
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 3
+      Range: 0
     - type: 1
       Power: 7
       AttackSpeed: 0.8
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 4
+      Range: 0
     Bullet:
     - type: 2
       Power: 2.5
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 2
       Power: 5
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 1
+      Range: 0
     - type: 2
       Power: 6
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 2
+      Range: 0
     - type: 2
       Power: 10
       AttackSpeed: 0.7
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 3
+      Range: 0
     - type: 2
       Power: 13
       AttackSpeed: 0.4
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 4
+      Range: 0
     Laser:
     - type: 3
       Power: 0.5
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 3
       Power: 1
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 1
+      Range: 0
     - type: 3
       Power: 2.5
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 2
+      Range: 0
     - type: 3
       Power: 4
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 3
+      Range: 0
     - type: 3
       Power: 6
       AttackSpeed: 1
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 4
+      Range: 0
     Slow:
     - type: 4
       Power: 0.1
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 4
       Power: 0.2
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 1
+      Range: 0
     - type: 4
       Power: 0.3
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 2
+      Range: 0
     - type: 4
       Power: 0.4
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 3
+      Range: 0
     - type: 4
       Power: 0.5
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 4
+      Range: 0
     ATKSpeedUp:
     - type: 5
       Power: 0.1
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 5
       Power: 0.3
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 5
       Power: 0.5
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 5
       Power: 0.7
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 5
       Power: 1
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     ATKDmgUp:
     - type: 5
       Power: 1
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 0
+      Range: 0
     - type: 5
       Power: 2
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 1
+      Range: 0
     - type: 5
       Power: 3
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 2
+      Range: 0
     - type: 5
       Power: 4
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 3
+      Range: 0
     - type: 6
       Power: 5
       AttackSpeed: 0
+      Buf_Power: 
+      Buf_ATKSpeed: 
       Rank: 4
+      Range: 0
   SpawnTurret: {fileID: 7878529243594477418, guid: ff70417dfe0d05d40aa05a6ad7e00adb, type: 3}
 --- !u!4 &1411573595
 Transform:
