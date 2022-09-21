@@ -25,6 +25,7 @@ public class FloorManager : MonoBehaviour
     [Header("Turret")]
     [SerializeField] GameObject umm;
     private bool SelectTurret;
+    private int SelectTurretCost;
     
     private LayerMask Grassmask;
     private LayerMask turretmask;
@@ -57,9 +58,12 @@ public class FloorManager : MonoBehaviour
             {
                 DigFloor(mousePosition);
             }
-            else if(SelectTurret == true)
+            else if(Glasshit && SelectTurret == true)
             {
-                BuildTurret();
+                TurretManager.instance.AddScript(mousePosition, SelectTurretCost);
+                Debug.Log(mousePosition);
+                GameManager.instance.Monney -= SelectTurretCost+1;
+                SelectTurret = false;
             }
             else if(TurretHit)
             { 
@@ -109,12 +113,13 @@ public class FloorManager : MonoBehaviour
                 DigTileMap.SetTile(TilePos, Dirt);
                 DigEnd = true;
             }
-
+            GameManager.instance.Monney += 1;
         }
     }
-    void BuildTurret()
+    public void BuildTurret(int SpawnRank)
     {
-
+        SelectTurret = true;
+        SelectTurretCost = SpawnRank;
     }
     void TurretInformation(GameObject Turret)
     {
@@ -127,11 +132,15 @@ public class FloorManager : MonoBehaviour
         RaycastHit2D TurretHit = Physics2D.Raycast(mousePosition, transform.forward, 10000f, turretmask);
         Collider2D V_DigHit = Physics2D.OverlapBox(mousePosition, new Vector2(0.9f, 2.9f), 0, Digmask);//세로 오버랩박스
         Collider2D H_DigHit = Physics2D.OverlapBox(mousePosition, new Vector2(2.9f, 0.9f), 0, Digmask);//가로 오버렙박스
-        if (Glasshit&& V_DigHit == null&& H_DigHit == null&& Vector2.Distance(mousePosition,RecentDigFloor) == 1)
+        if (Glasshit && V_DigHit == null && H_DigHit == null && Vector2.Distance(mousePosition, RecentDigFloor) == 1)//땅파고 있을떄 파기 가능
         {
             M_Sprite.sprite = M_Images[0];
         }
-        else if(DigEnd == true && TurretHit)
+        else if (DigEnd == true && Glasshit && !TurretHit && SelectTurret == true)//터렛 설치를 선택후 일반 땅에 있을떄
+        {
+            M_Sprite.sprite = M_Images[0];
+        }
+        else if (DigEnd == true && SelectTurret == false && TurretHit)//터렛 설치 선택이 아닐떄 터렛을 누를 수 있을떄
         {
             M_Sprite.sprite = M_Images[0];
         }

@@ -2,63 +2,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Type
-{
-    Missile,
-    Electricity,
-    bullet,
-    Laser,
-    Slow,
-    ATKSpeedUp,
-    ATKDmgUp,
-}
+
 public class turret : MonoBehaviour
 {
-    public Type TurretType;
-    public int Dmg;
-    public int ATKSpeed;
-    public int Buf_ATKSpeed;
-    public int Rank;
+    public TurretStats TurretType;
+    public int Power;
+    public List<int> Buf_Power;
+
+
     private Vector3 BeforePos;
     private Vector3 MousePos;
     private bool Move;
-    private void Update()
+    public GameObject OverTurret;
+    protected virtual void Awake()
     {
-        if(Move)
+        BeforePos = transform.position;
+    }
+    protected virtual void Update()
+    {
+        if (Move)
         {
             MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(Mathf.Floor(MousePos.x) + 0.5f, Mathf.Floor(MousePos.y) + 0.5f, -1);
         }
+
     }
     private void OnMouseOver()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Move = true;
-            BeforePos = transform.position;
         }
-        else if(Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
+            if (OverTurret == false && Move)
+            {
+                transform.position = BeforePos;
+            }
+            else if (Move)
+            {
+                turret OverTurretScript = OverTurret.GetComponent<turret>();
+                if(OverTurretScript.TurretType.Rank == this.TurretType.Rank && OverTurretScript.TurretType.type == this.TurretType.type)
+                {
+                    RankUp();
+                }
+            }
             Move = false;
-            transform.position = BeforePos;
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Turret")
+        {
+            OverTurret = collision.gameObject;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Turret")
+        {
+            OverTurret = null;
+        }
+    }
+    private void RankUp()
+    {
+        TurretManager.instance.AddScript(transform.position, TurretType.Rank+1);
+        Destroy(OverTurret.gameObject);
+        Destroy(gameObject.gameObject);
+    }
 }
-abstract class ATK : turret
+public class ATK : turret
 {
-    protected void Start()
-    {
-        StartCoroutine("Attack");
-    }
-    private IEnumerator Attack()
-    {
-        yield return new WaitForSeconds(ATKSpeed - Buf_ATKSpeed);
-        AttackPattern();
-        yield return StartCoroutine("Attack");
-    }
-    abstract protected void AttackPattern();
+    public int ATKSpeed;
+    public List<int> Buf_ATKSpeed;
 }
-abstract class Buffer : turret
+public class SUP : turret
 {
 
 }
