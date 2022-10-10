@@ -19,8 +19,8 @@ public class TurretStats
     public ETurretType type;
     public float Power;
     public float AttackSpeed;
-    public List<int> Buf_Power;
-    public List<int> Buf_ATKSpeed;
+    public List<float> Buf_Power;
+    public List<float> Buf_ATKSpeed;
     public int Rank;
     public float Range;
 
@@ -51,35 +51,35 @@ public class TurretManager : MonoBehaviour
     public void AddScript(Vector3 SpawnPos,int Rank)
     {
         ETurretType type = (ETurretType)Random.Range(0, 1/*(int)ETurretType.END*/);
-        Missile TurretObject;
+        MissileTurret TurretObject;
         switch (type)
         {
             case ETurretType.Missile:
-                TurretObject = Instantiate(SpawnTurret,SpawnPos,transform.rotation).AddComponent<Missile>(); 
+                TurretObject = Instantiate(SpawnTurret,SpawnPos,transform.rotation).AddComponent<MissileTurret>(); 
                 TurretObject.TurretType = TurretList.Missile[Rank];
                 break;
             case ETurretType.Electricity:
-                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<Missile>();
-                TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
+                TurretObject.TurretType = TurretList.Electricity[Rank];
                 break;
             case ETurretType.Bullet:
-                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<Missile>();
+                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
                 TurretObject.TurretType = TurretList.Missile[Rank];
                 break;
             case ETurretType.Laser:
-                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<Missile>();
+                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
                 TurretObject.TurretType = TurretList.Missile[Rank];
                 break;
             case ETurretType.Slow:
-                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<Missile>();
+                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
                 TurretObject.TurretType = TurretList.Missile[Rank];
                 break;
             case ETurretType.ATKSpeedUp:
-                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<Missile>();
+                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
                 TurretObject.TurretType = TurretList.Missile[Rank];
                 break;
             case ETurretType.ATKDmgUp:
-                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<Missile>();
+                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
                 TurretObject.TurretType = TurretList.Missile[Rank];
                 break;
             default:

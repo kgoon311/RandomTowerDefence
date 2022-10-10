@@ -1,9 +1,12 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
-public class turret : MonoBehaviour
+public class TurretBase : MonoBehaviour
 {
     public TurretStats TurretType;
 
@@ -13,9 +16,14 @@ public class turret : MonoBehaviour
     private bool MouseOver;
     public GameObject OverTurret;
     private GameObject RangeObject;
+    protected LayerMask EnemyLayer;
+    protected LayerMask TurretLayer;
+
     protected virtual void Awake()
     {
         BeforePos = transform.position;
+        EnemyLayer = LayerMask.GetMask("Enemy");
+        TurretLayer = LayerMask.GetMask("Turret");
     }
     protected virtual void Start()
     {
@@ -30,7 +38,7 @@ public class turret : MonoBehaviour
             MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(Mathf.Floor(MousePos.x) + 0.5f, Mathf.Floor(MousePos.y) + 0.5f, -1);
         }
-        if (Input.GetMouseButtonDown(0) && RangeObject.activeSelf == true &&  MouseOver == false)
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && MouseOver == false)
         {
             RangeObject.SetActive(false);
         }
@@ -51,7 +59,7 @@ public class turret : MonoBehaviour
             }
             else if (Move)
             {
-                turret OverTurretScript = OverTurret.GetComponent<turret>();
+                TurretBase OverTurretScript = OverTurret.GetComponent<TurretBase>();
                 if (OverTurretScript.TurretType.Rank == this.TurretType.Rank && OverTurretScript.TurretType.type == this.TurretType.type)
                 {
                     RankUp();
@@ -85,19 +93,55 @@ public class turret : MonoBehaviour
         Destroy(gameObject.gameObject);
     }
 }
-public class ATK : turret
+public class ATK : TurretBase
 {
-    private GameObject TargetEnemy;
+    protected GameObject TargetEnemy;
+    protected override void Awake()
+    {
+        base.Awake();
+        StartCoroutine(Attack());
+    }
+    protected override void Update()
+    {
+        SearchEnemy();
+        base.Update();
+    }
     protected virtual void SearchEnemy()
     {
+        List<Collider2D> HitEnemys = new List<Collider2D>(Physics2D.OverlapBoxAll
+           (transform.position, new Vector2(TurretType.Range, TurretType.Range), 0, EnemyLayer));
+        if (TargetEnemy == null && HitEnemys != null)
+        {
+            float EnemyPos = Mathf.Infinity;
+            foreach (Collider2D Enemy in HitEnemys)
+            {
+                float Distance = Vector2.Distance(transform.position, Enemy.transform.position);
+                if (Distance < EnemyPos)
+                {
+                    EnemyPos = Distance;
+                    TargetEnemy = Enemy.gameObject;
+                }
+            }
+        }
+        else if (!HitEnemys.Find((x) => x.gameObject == TargetEnemy))
+        {
+            Debug.Log("!");
+            TargetEnemy = null;
+        }
     }
-    protected void Attack()
+    private IEnumerator Attack()
     {
-
+        if (TargetEnemy == null) yield break;
+        float SumBufSpeed = TurretType.Buf_ATKSpeed.Sum(); 
+        float ATKSpeed = 1/TurretType.AttackSpeed + SumBufSpeed;
+        AttackPattern();
+        yield return new WaitForSeconds(ATKSpeed);
+        yield return StartCoroutine(Attack());
     }
-
+    protected virtual void AttackPattern() { }
+    
 }
-public class SUP : turret
+public class SUP : TurretBase
 {
 
 }
