@@ -43,6 +43,7 @@ public class TurretManager : MonoBehaviour
 /*    public List<List<TurretStats>> RankTurret = new List<List<TurretStats>>();*/
     //public Dictionary<int, List<TurretStats>> RankTurret = new Dictionary<int, List<TurretStats>>();
     public GameObject SpawnTurret;
+    public GameObject MissileObject;
     public static TurretManager instance { get; set; }
     private void Awake()
     {
@@ -57,6 +58,7 @@ public class TurretManager : MonoBehaviour
             case ETurretType.Missile:
                 TurretObject = Instantiate(SpawnTurret,SpawnPos,transform.rotation).AddComponent<MissileTurret>(); 
                 TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject.MissilePrefab = MissileObject;
                 break;
             case ETurretType.Electricity:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
