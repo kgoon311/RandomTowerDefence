@@ -52,12 +52,12 @@ public class TurretManager : MonoBehaviour
     public void AddScript(Vector3 SpawnPos,int Rank)
     {
         ETurretType type = (ETurretType)Random.Range(0, 1/*(int)ETurretType.END*/);
-        MissileTurret TurretObject;
+        TurretBase TurretObject;
         switch (type)
         {
             case ETurretType.Missile:
-                TurretObject = Instantiate(SpawnTurret,SpawnPos,transform.rotation).AddComponent<MissileTurret>(); 
-                TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
+                TurretObject.TurretType = TurretList.Electricity[Rank];
                 TurretObject.MissilePrefab = MissileObject;
                 break;
             case ETurretType.Electricity:
