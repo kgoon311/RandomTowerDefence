@@ -14,10 +14,12 @@ public class TurretBase : MonoBehaviour
     private Vector3 MousePos;
     private bool Move;
     private bool MouseOver;
-    public GameObject OverTurret;
+    private GameObject OverTurret;
     private GameObject RangeObject;
     protected LayerMask EnemyLayer;
     protected LayerMask TurretLayer;
+
+    public GameObject Bullet;
 
     protected virtual void Awake()
     {
@@ -99,12 +101,16 @@ public class ATK : TurretBase
     protected override void Awake()
     {
         base.Awake();
+    }
+    protected override void Start()
+    {
+        base.Start();
         StartCoroutine(Attack());
     }
     protected override void Update()
     {
-        SearchEnemy();
         base.Update();
+        SearchEnemy();
     }
     protected virtual void SearchEnemy()
     {
@@ -125,21 +131,23 @@ public class ATK : TurretBase
         }
         else if (!HitEnemys.Find((x) => x.gameObject == TargetEnemy))
         {
-            Debug.Log("!");
             TargetEnemy = null;
         }
     }
     private IEnumerator Attack()
     {
-        if (TargetEnemy == null) yield break;
-        float SumBufSpeed = TurretType.Buf_ATKSpeed.Sum(); 
-        float ATKSpeed = 1/TurretType.AttackSpeed + SumBufSpeed;
-        AttackPattern();
+        if (TargetEnemy != null)
+        {
+            AttackPattern();
+            Debug.Log("test");
+        }
+        float SumBufSpeed = TurretType.Buf_ATKSpeed.Sum();
+        float ATKSpeed = 1 / TurretType.AttackSpeed;
         yield return new WaitForSeconds(ATKSpeed);
         yield return StartCoroutine(Attack());
     }
     protected virtual void AttackPattern() { }
-    
+
 }
 public class SUP : TurretBase
 {

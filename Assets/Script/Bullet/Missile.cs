@@ -8,6 +8,13 @@ public class Missile : MonoBehaviour
     private float Dmg;
     private Vector3 MoveDis;
     private GameObject EnemyObject;
+    private void Start()
+    {
+        Destroy(gameObject, 2);
+        Vector2 dir = EnemyObject.transform.position - transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
     void Update()
     {
         if (EnemyObject != null)
@@ -27,7 +34,7 @@ public class Missile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision == EnemyObject)
+        if(collision.gameObject == EnemyObject)
         {
             Destroy(gameObject);
             EnemyObject.GetComponent<EnemyBase>().OnHit(Dmg);

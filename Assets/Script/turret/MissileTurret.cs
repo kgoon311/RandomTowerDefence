@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MissileTurret : ATK
 {
-    public GameObject MissilePrefab;
     protected override void Awake()
     {
         base.Awake();
@@ -16,7 +15,7 @@ public class MissileTurret : ATK
     }
     protected override void AttackPattern()
     {
-        Missile MissileObject = Instantiate(MissilePrefab, transform.position, transform.rotation).GetComponent<Missile>();
+        Missile MissileObject = Instantiate(Bullet, transform.position, transform.rotation).GetComponent<Missile>();
         MissileObject.AttackEnemy(TargetEnemy, TurretType.Power);
     }
 }
