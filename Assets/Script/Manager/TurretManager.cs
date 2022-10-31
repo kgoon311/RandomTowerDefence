@@ -36,7 +36,7 @@ public class Turrets
     public List<TurretStats> ATKSpeedUp;
     public List<TurretStats> ATKDmgUp;
 }
-public class TurretManager : MonoBehaviour
+public class TurretManager : Singleton<TurretManager>
 {
     ETurretType a;
     public Turrets TurretList = new Turrets();
@@ -45,11 +45,6 @@ public class TurretManager : MonoBehaviour
     public GameObject SpawnTurret;
     public GameObject MissileObject;
     public GameObject BulletObject;
-    public static TurretManager instance { get; set; }
-    private void Awake()
-    {
-        instance = this;
-    }
     public void AddScript(Vector3 SpawnPos,int Rank)
     {
         ETurretType type = (ETurretType)Random.Range(0, 1/*(int)ETurretType.END*/);

@@ -2,16 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     public int HP;
     public int Monney;
-
-    public static GameManager instance { get; set; }
-    private void Awake()
-    {
-        instance = this;
-    }
 
     void Start()
     {

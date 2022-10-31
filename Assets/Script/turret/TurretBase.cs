@@ -90,7 +90,7 @@ public class TurretBase : MonoBehaviour
     }
     private void RankUp()
     {
-        TurretManager.instance.AddScript(transform.position, TurretType.Rank + 1);
+        TurretManager.Instance.AddScript(transform.position, TurretType.Rank + 1);
         Destroy(OverTurret.gameObject);
         Destroy(gameObject.gameObject);
     }
