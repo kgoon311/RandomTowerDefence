@@ -27,7 +27,7 @@ public class FloorManager : Singleton<FloorManager>
 
     [Header("Turret")]
     [SerializeField] GameObject TurretBase;
-    private bool selectTurret;
+    private bool isSelectTurret;
     private int selectTurretCost;
     
     private LayerMask grassmask;
@@ -49,25 +49,28 @@ public class FloorManager : Singleton<FloorManager>
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition = new Vector2(Mathf.Floor(mousePosition.x) + 0.5f, Mathf.Floor(mousePosition.y) + 0.5f);
+
         if (Input.GetKeyDown(KeyCode.R) && DigEnd == false) ResetFloor();
         if (Input.GetMouseButton(0)) ClickAction();
        
         MousePointerSpawn();
     }
+
     void ClickAction()
     {
         RaycastHit2D Glasshit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, grassmask);
         RaycastHit2D TurretHit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, turretmask);
+
         if (Glasshit && DigEnd == false)//잔디이고 땅파는 상황일 때
         {
             DigFloor(mousePosition);
         }
-        else if (Glasshit && selectTurret == true)//잔디 이고 터렛 선택 했을때
+        else if (Glasshit && isSelectTurret == true)//잔디 이고 터렛 선택 했을때
         {
             TurretManager.Instance.AddScript(mousePosition, selectTurretCost);
             Debug.Log(mousePosition);
-            GameManager.Instance.Monney -= selectTurretCost + 1;
-            selectTurret = false;
+            GameManager.Instance._money -= selectTurretCost + 1;
+            isSelectTurret = false;
         }
         else if (TurretHit)//터렛을 클릭했을때
         {
@@ -119,34 +122,43 @@ public class FloorManager : Singleton<FloorManager>
                 DiggingFloor.Add(EndDigFloorPos + Vector2.up);//집 안으로 들어가기
                 DigEnd = true;
             }
-            GameManager.Instance.Monney += 1;
+            GameManager.Instance._money += 1;
         }
     }
-    public void BuildTurret(int SpawnRank)
+
+    //터렛 선택 버튼
+    public void OnClickSelectTurret(int SpawnRank)
     {
-        selectTurret = true;
+        isSelectTurret = true;
         selectTurretCost = SpawnRank;
     }
+
+    //터렛 정보 열기
     void TurretInformation(GameObject Turret)
     {
 
     }
+
+    //마우스 위치 표시
     void MousePointerSpawn()
     {
         m_Object.transform.position = mousePosition;
+
         RaycastHit2D Glasshit = Physics2D.Raycast(mousePosition, transform.forward, 10000f, grassmask);
         RaycastHit2D TurretHit = Physics2D.Raycast(mousePosition, transform.forward, 10000f, turretmask);
+
         Collider2D V_DigHit = Physics2D.OverlapBox(mousePosition, new Vector2(0.9f, 2.9f), 0, digmask);//세로 오버랩박스
         Collider2D H_DigHit = Physics2D.OverlapBox(mousePosition, new Vector2(2.9f, 0.9f), 0, digmask);//가로 오버렙박스
+
         if (Glasshit && V_DigHit == null && H_DigHit == null && Vector2.Distance(mousePosition, RecentDigFloor) == 1)//땅파고 있을떄 파기 가능
         {
             m_Sprite.sprite = m_Images[0];
         }
-        else if (DigEnd == true && Glasshit && !TurretHit && selectTurret == true)//터렛 설치를 선택후 일반 땅에 있을떄
+        else if (DigEnd == true && Glasshit && !TurretHit && isSelectTurret == true)//터렛 설치를 선택후 일반 땅에 있을떄
         {
             m_Sprite.sprite = m_Images[0];
         }
-        else if (DigEnd == true && selectTurret == false && TurretHit)//터렛 설치 선택이 아닐떄 터렛을 누를 수 있을떄
+        else if (DigEnd == true && isSelectTurret == false && TurretHit)//터렛 설치 선택이 아닐떄 터렛을 누를 수 있을떄
         { 
             m_Sprite.sprite = m_Images[0];
         }

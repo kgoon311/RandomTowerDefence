@@ -10,12 +10,16 @@ public class TurretBase : MonoBehaviour
 {
     public TurretStats TurretType;
 
-    private Vector3 BeforePos;
-    private Vector3 MousePos;
-    private bool Move;
+    private bool Move;//움직이는지
+    private Vector3 BeforePos;//움직일때 원래 자리
+    private Vector3 MousePos;//Move가 True일때 이동할 마우스 위치
+
+
     private bool MouseOver;
+
     private GameObject OverTurret;
     private GameObject RangeObject;
+
     protected LayerMask EnemyLayer;
     protected LayerMask TurretLayer;
 
@@ -23,35 +27,29 @@ public class TurretBase : MonoBehaviour
 
     protected virtual void Awake()
     {
+        GameManager.Instance.turretGroup.Add(gameObject, this);//
         BeforePos = transform.position;
+
         EnemyLayer = LayerMask.GetMask("Enemy");
         TurretLayer = LayerMask.GetMask("Turret");
+
+        SettingRangeObj();
     }
-    protected virtual void Start()
-    {
-        RangeObject = transform.GetChild(0).gameObject;
-        RangeObject.transform.localScale = Vector3.one * TurretType.Range;
-        RangeObject.SetActive(false);
-    }
+
     protected virtual void Update()
     {
-        if (Move)
-        {
-            MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(Mathf.Floor(MousePos.x) + 0.5f, Mathf.Floor(MousePos.y) + 0.5f, -1);
-        }
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && MouseOver == false)
-        {
+        MovePos();
+
+        if (MouseOver == false && !EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))//마우스가 다른 곳을 클릭했을때 범위표시 지우기
             RangeObject.SetActive(false);
-        }
     }
+   
     private void OnMouseOver()
     {
         MouseOver = true;
         if (Input.GetMouseButtonDown(0))
         {
             Move = true;
-            RangeObject.SetActive(true);
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -66,6 +64,10 @@ public class TurretBase : MonoBehaviour
                 {
                     RankUp();
                 }
+            }
+            else
+            {
+                RangeObject.SetActive(true);
             }
             Move = false;
         }
@@ -88,6 +90,20 @@ public class TurretBase : MonoBehaviour
             OverTurret = null;
         }
     }
+    private void SettingRangeObj()
+    {
+        RangeObject = transform.GetChild(0).gameObject;//범위 표시 오브젝트
+        RangeObject.transform.localScale = Vector3.one * TurretType.Range;//범위 표시 오브젝트 
+        RangeObject.SetActive(false);
+    }
+    private void MovePos()
+    {
+        if (Move)
+        {
+            MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(Mathf.Floor(MousePos.x) + 0.5f, Mathf.Floor(MousePos.y) + 0.5f, -1);
+        }
+    }
     private void RankUp()
     {
         TurretManager.Instance.AddScript(transform.position, TurretType.Rank + 1);
@@ -101,10 +117,6 @@ public class ATK : TurretBase
     protected override void Awake()
     {
         base.Awake();
-    }
-    protected override void Start()
-    {
-        base.Start();
         StartCoroutine(Attack());
     }
     protected override void Update()

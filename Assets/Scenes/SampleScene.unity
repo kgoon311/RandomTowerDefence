@@ -365,7 +365,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 16
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -403,10 +403,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ad89320eb0ce74295c84d32c5ce9ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowDeBuf: []
-  Hp: 0
+  slowDebuff: []
+  hp: 0
   speed: 1
-  DropMoney: 0
+  dropMoney: 0
 --- !u!1 &273879123
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +832,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 163273977}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
-        m_MethodName: BuildTurret
+        m_MethodName: OnClickSelectTurret
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -975,7 +975,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 366145253176d564b92c6735d3d7546d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1801,8 +1801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6ab3050c747dd45862584b3cdb80b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 3
-  Monney: 10
 --- !u!4 &1575033208
 Transform:
   m_ObjectHideFlags: 0
@@ -2529,7 +2527,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 163273977}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
-        m_MethodName: BuildTurret
+        m_MethodName: OnClickSelectTurret
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2854,7 +2852,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 163273977}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
-        m_MethodName: BuildTurret
+        m_MethodName: OnClickSelectTurret
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
