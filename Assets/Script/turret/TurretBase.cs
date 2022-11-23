@@ -10,7 +10,7 @@ public class TurretBase : MonoBehaviour
 {
     public TurretStats TurretType;
 
-    private bool Move;//움직이는지
+    private bool Move;//터렛을 클릭해서 움직이는 중일때
     private Vector3 BeforePos;//움직일때 원래 자리
     private Vector3 MousePos;//Move가 True일때 이동할 마우스 위치
 
@@ -32,15 +32,18 @@ public class TurretBase : MonoBehaviour
 
         EnemyLayer = LayerMask.GetMask("Enemy");
         TurretLayer = LayerMask.GetMask("Turret");
-
-        SettingRangeObj();
     }
+    protected virtual void Start()
+    {
+        SettingRangeObj();
 
+    }
     protected virtual void Update()
     {
         MovePos();
 
-        if (MouseOver == false && !EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))//마우스가 다른 곳을 클릭했을때 범위표시 지우기
+        //마우스가 다른 곳을 클릭했을때 범위표시 지우기
+        if (MouseOver == false && !EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
             RangeObject.SetActive(false);
     }
    
@@ -51,13 +54,19 @@ public class TurretBase : MonoBehaviour
         {
             Move = true;
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && Move)
         {
-            if (OverTurret == false && Move)
+            if (new Vector2(transform.position.x,transform.position.y) == 
+                new Vector2(BeforePos.x, BeforePos.y))//움직인 것 없이 그냥 클릭했을때
+            {
+                
+                RangeObject.SetActive(true);
+            }
+            else if (OverTurret == false)//다른 터렛에 안 겹쳐 있을때
             {
                 transform.position = BeforePos;
             }
-            else if (Move)
+            else if (OverTurret)//움직이는 중이고 다른 터렛에 겹쳤을 때
             {
                 TurretBase OverTurretScript = OverTurret.GetComponent<TurretBase>();
                 if (OverTurretScript.TurretType.Rank == this.TurretType.Rank && OverTurretScript.TurretType.type == this.TurretType.type)
@@ -65,10 +74,7 @@ public class TurretBase : MonoBehaviour
                     RankUp();
                 }
             }
-            else
-            {
-                RangeObject.SetActive(true);
-            }
+
             Move = false;
         }
     }
@@ -111,12 +117,18 @@ public class TurretBase : MonoBehaviour
         Destroy(gameObject.gameObject);
     }
 }
+
 public class ATK : TurretBase
 {
     protected GameObject TargetEnemy;
+    private float atkDelay = 1;
     protected override void Awake()
     {
         base.Awake();
+    }
+    protected override void Start()
+    {
+        base.Start();
         StartCoroutine(Attack());
     }
     protected override void Update()
@@ -128,9 +140,11 @@ public class ATK : TurretBase
     {
         List<Collider2D> HitEnemys = new List<Collider2D>(Physics2D.OverlapBoxAll
            (transform.position, new Vector2(TurretType.Range, TurretType.Range), 0, EnemyLayer));
+
         if (TargetEnemy == null && HitEnemys != null)
         {
             float EnemyPos = Mathf.Infinity;
+
             foreach (Collider2D Enemy in HitEnemys)
             {
                 float Distance = Vector2.Distance(transform.position, Enemy.transform.position);

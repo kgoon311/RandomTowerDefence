@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slowDebuff: []
-  hp: 0
+  hp: 10000
   speed: 1
   dropMoney: 0
 --- !u!1 &273879123

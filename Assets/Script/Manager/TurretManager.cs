@@ -38,10 +38,9 @@ public class Turrets
 }
 public class TurretManager : Singleton<TurretManager>
 {
-    ETurretType a;
     public Turrets TurretList = new Turrets();
-/*    public List<List<TurretStats>> RankTurret = new List<List<TurretStats>>();*/
-    //public Dictionary<int, List<TurretStats>> RankTurret = new Dictionary<int, List<TurretStats>>();
+    public List<List<TurretStats>> RankTurret = new List<List<TurretStats>>();  
+
     public GameObject SpawnTurret;
     public GameObject MissileObject;
     public GameObject BulletObject;

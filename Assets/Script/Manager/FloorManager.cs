@@ -51,48 +51,69 @@ public class FloorManager : Singleton<FloorManager>
         mousePosition = new Vector2(Mathf.Floor(mousePosition.x) + 0.5f, Mathf.Floor(mousePosition.y) + 0.5f);
 
         if (Input.GetKeyDown(KeyCode.R) && DigEnd == false) ResetFloor();
-        if (Input.GetMouseButton(0)) ClickAction();
+
+        if (Input.GetMouseButtonDown(0)) L_ClickAction();//클릭했을때
+        else if (Input.GetMouseButtonDown(2)) R_ClickAction();
+        else if (Input.GetMouseButton(0)) ClickingAction();//클릭중일때
        
         MousePointerSpawn();
     }
-
-    void ClickAction()
+    //클릭했을 때 
+    void L_ClickAction()
     {
-        RaycastHit2D Glasshit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, grassmask);
-        RaycastHit2D TurretHit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, turretmask);
+        RaycastHit2D TurretHit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, turretmask);//터렛 클릭 레이캐스트
+        RaycastHit2D Glasshit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, grassmask);//잔디 클릭 레이캐스트
+
+        if (TurretHit)//터렛을 클릭했을때
+        {
+            TurretInformation(TurretHit.transform.gameObject);
+        }
+        else if (Glasshit && isSelectTurret == true)//잔디 이고 터렛설치 중일때
+        {
+            TurretManager.Instance.AddScript(mousePosition, selectTurretCost);
+
+            GameManager.Instance._money -= selectTurretCost + 1;
+            isSelectTurret = false;
+        }
+    }
+    //우클릭 했을 때
+    void R_ClickAction()
+    {
+       if(isSelectTurret == true)
+            isSelectTurret = false;
+       //땅 설치중 한칸 취소구연 예전
+    }
+    //클릭중
+    private void ClickingAction()
+    {
+        RaycastHit2D Glasshit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, grassmask);//잔디 클릭 레이캐스트
 
         if (Glasshit && DigEnd == false)//잔디이고 땅파는 상황일 때
         {
             DigFloor(mousePosition);
         }
-        else if (Glasshit && isSelectTurret == true)//잔디 이고 터렛 선택 했을때
-        {
-            TurretManager.Instance.AddScript(mousePosition, selectTurretCost);
-            Debug.Log(mousePosition);
-            GameManager.Instance._money -= selectTurretCost + 1;
-            isSelectTurret = false;
-        }
-        else if (TurretHit)//터렛을 클릭했을때
-        {
-            TurretInformation(TurretHit.transform.gameObject);
-        }
+      
     }
     void ResetFloor()
     {
+        Vector3Int TilePos;
         RecentDigFloor = FirstDigFloorPos;
 
-        Vector3Int TilePos;
         foreach (Vector2 Pos in DiggingFloor)
         {
             TilePos = GrassTileMap.WorldToCell(Pos);//Vector3Int로 변환
+
             GrassTileMap.SetTile(TilePos, Grass);//잔디 설치
             FakeDirt.SetTile(TilePos, Dirt);//가짜 흙 설치
             DigTileMap.SetTile(TilePos, null);//흙 지우기
         }
 
-        DiggingFloor.Clear();
-        DiggingFloor.Add(RecentDigFloor);//시작지점 할당 
         TilePos = GrassTileMap.WorldToCell(RecentDigFloor);
+
+        DiggingFloor.Clear();//초기화
+        DiggingFloor.Add(RecentDigFloor);//시작지점 할당 
+
+
         GrassTileMap.SetTile(TilePos, null);//시작지점 잔디 지우기
         FakeDirt.SetTile(TilePos, Dirt); //시작지점 가짜 흙 설치
     }
@@ -100,9 +121,11 @@ public class FloorManager : Singleton<FloorManager>
     {
         Collider2D hit = Physics2D.OverlapBox(TargetFloor, new Vector2(0.9f, 2.9f), 0, digmask);//세로 오버랩박스
         Collider2D hit2 = Physics2D.OverlapBox(TargetFloor, new Vector2(2.9f, 0.9f), 0, digmask);//가로 오버렙박스
+
         if (hit == null && hit2 == null && Vector2.Distance(TargetFloor, RecentDigFloor) == 1)//바로 전에 자신의 블록이 있는지 체크
         {
             DiggingFloor.Add(TargetFloor);
+
             Vector3Int TilePos = GrassTileMap.WorldToCell(TargetFloor);//마우스 클릭 위치를 타입맵 기준으로 바꿔주는 함수
             GrassTileMap.SetTile(TilePos, null);
             if (EndDigFloorPos != TargetFloor) 
