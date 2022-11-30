@@ -10,28 +10,28 @@ public class TurretBase : MonoBehaviour
 {
     public TurretStats TurretType;
 
-    private bool Move;//터렛을 클릭해서 움직이는 중일때
-    private Vector3 BeforePos;//움직일때 원래 자리
+    private bool Move;//터렛을 클릭해서 움직이는 중인가
+    private Vector3 BeforePos;//원래 좌표
     private Vector3 MousePos;//Move가 True일때 이동할 마우스 위치
 
+    private bool MouseOver;//마우스가 터렛과 오버레이 되었는가
 
-    private bool MouseOver;
+    private GameObject RangeObject;//범위 오브젝트
+    private GameObject OverTurret;//겹쳐진 터렛 오브젝트
 
-    private GameObject OverTurret;
-    private GameObject RangeObject;
+    protected LayerMask EnemyLayerMask;
+    protected LayerMask TurretLayerMask;
 
-    protected LayerMask EnemyLayer;
-    protected LayerMask TurretLayer;
-
+    protected List<Collider2D> searchObjects = new List<Collider2D>();   
+    
     public GameObject Bullet;
 
     protected virtual void Awake()
     {
-        GameManager.Instance.turretGroup.Add(gameObject, this);//
         BeforePos = transform.position;
 
-        EnemyLayer = LayerMask.GetMask("Enemy");
-        TurretLayer = LayerMask.GetMask("Turret");
+        EnemyLayerMask = LayerMask.GetMask("Enemy");
+        TurretLayerMask = LayerMask.GetMask("Turret");
     }
     protected virtual void Start()
     {
@@ -96,12 +96,15 @@ public class TurretBase : MonoBehaviour
             OverTurret = null;
         }
     }
+
+    //범위 오브젝트 사이즈 셋팅 함수
     private void SettingRangeObj()
     {
         RangeObject = transform.GetChild(0).gameObject;//범위 표시 오브젝트
         RangeObject.transform.localScale = Vector3.one * TurretType.Range;//범위 표시 오브젝트 
         RangeObject.SetActive(false);
     }
+    //드래그로 움직일 때 사용되는 함수
     private void MovePos()
     {
         if (Move)
@@ -110,42 +113,49 @@ public class TurretBase : MonoBehaviour
             transform.position = new Vector3(Mathf.Floor(MousePos.x) + 0.5f, Mathf.Floor(MousePos.y) + 0.5f, -1);
         }
     }
+    //같은 등급과 합쳐질때 사용되는 함수
     private void RankUp()
     {
-        TurretManager.Instance.AddScript(transform.position, TurretType.Rank + 1);
-        Destroy(OverTurret.gameObject);
-        Destroy(gameObject.gameObject);
+        TurretManager.Instance.BuildTurret(transform.position, TurretType.Rank + 1);
+
+        Destroy(OverTurret);
+        Destroy(gameObject);
     }
+
 }
 
 public class ATK : TurretBase
 {
-    protected GameObject TargetEnemy;
-    private float atkDelay = 1;
+    [SerializeField] protected GameObject TargetEnemy;//공격 타겟 오브젝트
+
     protected override void Awake()
     {
         base.Awake();
     }
+
     protected override void Start()
     {
         base.Start();
         StartCoroutine(Attack());
     }
+
     protected override void Update()
     {
         base.Update();
         SearchEnemy();
     }
+
+    //범위 안에 적 찾기
     protected virtual void SearchEnemy()
     {
-        List<Collider2D> HitEnemys = new List<Collider2D>(Physics2D.OverlapBoxAll
-           (transform.position, new Vector2(TurretType.Range, TurretType.Range), 0, EnemyLayer));
+        searchObjects = new List<Collider2D>(Physics2D.OverlapBoxAll(transform.position, 
+            new Vector2(TurretType.Range, TurretType.Range), 0, EnemyLayerMask));
 
-        if (TargetEnemy == null && HitEnemys != null)
+        if (TargetEnemy == null && searchObjects != null)
         {
             float EnemyPos = Mathf.Infinity;
 
-            foreach (Collider2D Enemy in HitEnemys)
+            foreach (Collider2D Enemy in searchObjects)
             {
                 float Distance = Vector2.Distance(transform.position, Enemy.transform.position);
                 if (Distance < EnemyPos)
@@ -155,25 +165,28 @@ public class ATK : TurretBase
                 }
             }
         }
-        else if (!HitEnemys.Find((x) => x.gameObject == TargetEnemy))
+        else if (!searchObjects.Find((x) => x.gameObject == TargetEnemy))
         {
             TargetEnemy = null;
         }
     }
+
     private IEnumerator Attack()
     {
         if (TargetEnemy != null)
         {
+            Debug.Log("?");
             AttackPattern();
-            Debug.Log("test");
         }
-        float SumBufSpeed = TurretType.Buf_ATKSpeed.Sum();
-        float ATKSpeed = 1 / TurretType.AttackSpeed;
-        yield return new WaitForSeconds(ATKSpeed);
-        yield return StartCoroutine(Attack());
-    }
-    protected virtual void AttackPattern() { }
 
+        float SumBufSpeed = TurretType.Buf_ATKSpeed.Sum();
+        float totalATKSpeed = 1f / (SumBufSpeed + TurretType.AttackSpeed); //1초동안 (기본 공속 + 버프)번 때리기
+
+        yield return new WaitForSeconds(totalATKSpeed);
+        StartCoroutine(Attack());
+    }
+
+    protected virtual void AttackPattern() { }
 }
 public class SUP : TurretBase
 {

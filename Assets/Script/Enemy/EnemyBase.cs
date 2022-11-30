@@ -17,8 +17,6 @@ public class EnemyBase : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.enemyGroup.Add(gameObject, this);
-
         movePos = FloorManager.Instance.DiggingFloor;
         StartCoroutine("Move");
     }

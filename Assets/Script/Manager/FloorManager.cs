@@ -15,7 +15,7 @@ public class FloorManager : Singleton<FloorManager>
     [Header("Floor")]
     [SerializeField] private Vector2 FirstDigFloorPos;
     [SerializeField] private Vector2 EndDigFloorPos;
-    [SerializeField] private bool DigEnd;
+    [SerializeField] private bool isDigEnd;
     private Vector2 RecentDigFloor;
     public List<Vector2> DiggingFloor = new List<Vector2>();
 
@@ -50,7 +50,7 @@ public class FloorManager : Singleton<FloorManager>
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition = new Vector2(Mathf.Floor(mousePosition.x) + 0.5f, Mathf.Floor(mousePosition.y) + 0.5f);
 
-        if (Input.GetKeyDown(KeyCode.R) && DigEnd == false) ResetFloor();
+        if (Input.GetKeyDown(KeyCode.R) && isDigEnd == false) ResetFloor();
 
         if (Input.GetMouseButtonDown(0)) L_ClickAction();//클릭했을때
         else if (Input.GetMouseButtonDown(2)) R_ClickAction();
@@ -68,11 +68,15 @@ public class FloorManager : Singleton<FloorManager>
         {
             TurretInformation(TurretHit.transform.gameObject);
         }
-        else if (Glasshit && isSelectTurret == true)//잔디 이고 터렛설치 중일때
+        else if (Glasshit && isSelectTurret == true && isDigEnd)//잔디 이고 터렛설치 중일때
         {
-            TurretManager.Instance.AddScript(mousePosition, selectTurretCost);
+            TurretManager.Instance.BuildTurret(mousePosition, selectTurretCost);
 
             GameManager.Instance._money -= selectTurretCost + 1;
+            isSelectTurret = false;
+        }
+        else
+        {
             isSelectTurret = false;
         }
     }
@@ -88,12 +92,13 @@ public class FloorManager : Singleton<FloorManager>
     {
         RaycastHit2D Glasshit = Physics2D.Raycast(mousePosition, transform.forward, 100000f, grassmask);//잔디 클릭 레이캐스트
 
-        if (Glasshit && DigEnd == false)//잔디이고 땅파는 상황일 때
+        if (Glasshit && isDigEnd == false)//잔디이고 땅파는 상황일 때
         {
             DigFloor(mousePosition);
         }
       
     }
+
     void ResetFloor()
     {
         Vector3Int TilePos;
@@ -128,14 +133,14 @@ public class FloorManager : Singleton<FloorManager>
 
             Vector3Int TilePos = GrassTileMap.WorldToCell(TargetFloor);//마우스 클릭 위치를 타입맵 기준으로 바꿔주는 함수
             GrassTileMap.SetTile(TilePos, null);
-            if (EndDigFloorPos != TargetFloor) 
+            if (EndDigFloorPos != TargetFloor) //마지막 땅이 아닐때
             {
                 //오버랩박스에 안걸리기 위해 흙블록을 페이크타일맵에 적용
                 FakeDirt.SetTile(TilePos, Dirt);
                 TilePos = GrassTileMap.WorldToCell(RecentDigFloor);
                 DigTileMap.SetTile(TilePos, Dirt);
                 RecentDigFloor = TargetFloor;
-            }//마지막 땅이 아닐때
+            }
             else
             {
                 TilePos = GrassTileMap.WorldToCell(RecentDigFloor);
@@ -143,7 +148,7 @@ public class FloorManager : Singleton<FloorManager>
                 TilePos = GrassTileMap.WorldToCell(TargetFloor);
                 DigTileMap.SetTile(TilePos, Dirt);
                 DiggingFloor.Add(EndDigFloorPos + Vector2.up);//집 안으로 들어가기
-                DigEnd = true;
+                isDigEnd = true;
             }
             GameManager.Instance._money += 1;
         }
@@ -177,11 +182,11 @@ public class FloorManager : Singleton<FloorManager>
         {
             m_Sprite.sprite = m_Images[0];
         }
-        else if (DigEnd == true && Glasshit && !TurretHit && isSelectTurret == true)//터렛 설치를 선택후 일반 땅에 있을떄
+        else if (isDigEnd == true && Glasshit && !TurretHit && isSelectTurret == true)//터렛 설치를 선택후 일반 땅에 있을떄
         {
             m_Sprite.sprite = m_Images[0];
         }
-        else if (DigEnd == true && isSelectTurret == false && TurretHit)//터렛 설치 선택이 아닐떄 터렛을 누를 수 있을떄
+        else if (isDigEnd == true && isSelectTurret == false && TurretHit)//터렛 설치 선택이 아닐떄 터렛을 누를 수 있을떄
         { 
             m_Sprite.sprite = m_Images[0];
         }

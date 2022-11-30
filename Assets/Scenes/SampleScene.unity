@@ -741,7 +741,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -0.12, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1125,7 +1125,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -0.0094776}
-  m_SizeDelta: {x: 326.2826, y: 1080}
+  m_SizeDelta: {x: 300.0318, y: 1080}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &889990705
 MonoBehaviour:
@@ -1546,35 +1546,35 @@ MonoBehaviour:
       Buf_Power: []
       Buf_ATKSpeed: []
       Rank: 0
-      Range: 0
+      Range: 3
     - type: 1
       Power: 2
       AttackSpeed: 1.5
       Buf_Power: []
       Buf_ATKSpeed: []
       Rank: 1
-      Range: 0
+      Range: 3
     - type: 1
       Power: 3.5
       AttackSpeed: 1.5
       Buf_Power: []
       Buf_ATKSpeed: []
       Rank: 2
-      Range: 0
+      Range: 3
     - type: 1
       Power: 5
       AttackSpeed: 1.2
       Buf_Power: []
       Buf_ATKSpeed: []
       Rank: 3
-      Range: 0
+      Range: 3
     - type: 1
       Power: 7
       AttackSpeed: 0.8
       Buf_Power: []
       Buf_ATKSpeed: []
       Rank: 4
-      Range: 0
+      Range: 3
     Bullet:
     - type: 2
       Power: 2.5
@@ -1756,8 +1756,8 @@ MonoBehaviour:
       Rank: 4
       Range: 0
   SpawnTurret: {fileID: 7878529243594477418, guid: ff70417dfe0d05d40aa05a6ad7e00adb, type: 3}
-  MissileObject: {fileID: 8368249927105100921, guid: 117394f6e7057184aa1ded384262ff1e, type: 3}
-  BulletObject: {fileID: 0}
+  MissileObject: []
+  BulletObject: []
 --- !u!4 &1411573595
 Transform:
   m_ObjectHideFlags: 0
