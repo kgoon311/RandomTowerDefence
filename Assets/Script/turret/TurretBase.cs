@@ -175,7 +175,6 @@ public class ATK : TurretBase
     {
         if (TargetEnemy != null)
         {
-            Debug.Log("?");
             AttackPattern();
         }
 

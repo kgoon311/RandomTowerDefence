@@ -23,11 +23,34 @@ public class EnemyBase : MonoBehaviour
     public void OnHit(float Dmg)
     {
         hp -= Dmg;
+        StartCoroutine(HitColor());
         if (hp < 0)
         {
             GameManager.Instance._money += dropMoney;
             Destroy(gameObject);
         }
+    }
+    private IEnumerator HitColor()
+    {
+        SpriteRenderer color = GetComponent<SpriteRenderer>();
+        float timer = 0;
+        
+        //빨갛게 만들기
+        while (timer >= 0)
+        {
+            timer -= Time.deltaTime * 3;
+            color.color = new Color(1, timer, timer);
+            yield return null;
+        }
+        //다시 원래색으로 돌아오게 하기
+        while(timer <= 1)
+        {
+            timer += Time.deltaTime*3;
+            color.color = new Color(1, timer, timer);
+            yield return null;
+        }
+
+        yield return null;
     }
     private IEnumerator Move()
     {

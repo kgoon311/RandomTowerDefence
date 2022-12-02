@@ -21,6 +21,7 @@ public class TurretStats
     public ETurretType type;
     public float Power;
     public float AttackSpeed;
+    public float BulletSpeed;
     public List<float> Buf_Power;
     public List<float> Buf_ATKSpeed;
     public int Rank;
@@ -52,7 +53,7 @@ public class TurretManager : Singleton<TurretManager>
 
     public void BuildTurret(Vector3 SpawnPos,int Rank)
     {
-        ETurretType type = (ETurretType)Random.Range(1, 2/*(int)ETurretType.END*/);
+        ETurretType type = (ETurretType)Random.Range(0,1/*(int)ETurretType.END*/);
         TurretBase TurretObject;
         switch (type)
         {

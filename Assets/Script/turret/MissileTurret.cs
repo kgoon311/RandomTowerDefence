@@ -6,7 +6,7 @@ public class MissileTurret : ATK
 {
     protected override void AttackPattern()
     {
-        MissileObject MissileObject = Instantiate(Bullet, transform.position, transform.rotation).GetComponent<MissileObject>();
-        MissileObject.AttackEnemy(TargetEnemy, TurretType.Power);
+        BulletBase MissileObject = Instantiate(Bullet, transform.position, transform.rotation).GetComponent<BulletBase>();
+        MissileObject.AttackEnemy(TargetEnemy, TurretType.Power , TurretType.BulletSpeed);
     }
 }
