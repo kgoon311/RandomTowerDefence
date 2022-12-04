@@ -6,7 +6,7 @@ public enum ETurretType
 {
     Missile,
     Electricity,
-    Bullet,
+    Gatling,
     Laser,
     Slow,
     ATKSpeedUp,
@@ -38,7 +38,7 @@ public class Turrets
 {
     public List<TurretStats> Missile;
     public List<TurretStats> Electricity;
-    public List<TurretStats> Bullet;
+    public List<TurretStats> Gatling;
     public List<TurretStats> Laser;
     public List<TurretStats> Slow ;
     public List<TurretStats> ATKSpeedUp;
@@ -63,7 +63,7 @@ public class TurretManager : Singleton<TurretManager>
 
     public void BuildTurret(Vector3 SpawnPos,int Rank)
     {
-        ETurretType type = (ETurretType)Random.Range(0, (int)ETurretType.END); /*(ETurretType)testTurretidx;*/
+        ETurretType type = /*(ETurretType)Random.Range(0, (int)ETurretType.END);*/ (ETurretType)testTurretidx;
         TurretBase TurretObject = new TurretBase();
         switch (type)
         {
@@ -77,7 +77,7 @@ public class TurretManager : Singleton<TurretManager>
                 TurretObject.TurretType = turretList.Electricity[Rank];
                 TurretObject.Bullet = bullets.Electric[Rank];
                 break;
-            case ETurretType.Bullet:
+            case ETurretType.Gatling:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
                 TurretObject.TurretType = turretList.Missile[Rank];
                 break;

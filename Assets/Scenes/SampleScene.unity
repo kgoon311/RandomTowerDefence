@@ -612,8 +612,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11af1da7a8623e6488c54ab527b5d44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testEnemy: {fileID: 0}
-  spawnPos: {x: 0, y: 0, z: 0}
+  testEnemy: {fileID: 4988011698294323936, guid: 969473aa69b38514aab3bafba897aa17, type: 3}
+  spawnPos: {x: -9.5, y: 0.5, z: 0}
 --- !u!1 &680851945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,7 +1462,7 @@ MonoBehaviour:
       range: 6
       buf_Power: 0
       buf_ATKSpeed: 0
-    Bullet: []
+    Gatling: []
     Laser: []
     Slow: []
     ATKSpeedUp: []

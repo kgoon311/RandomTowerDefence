@@ -4,8 +4,4 @@ using UnityEngine;
 
 public class ElectricTurret : ATK
 {
-    protected override void AttackPattern()
-    {
-        base.AttackPattern();
-    }
 }
