@@ -20,22 +20,29 @@ public abstract class BulletBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (enemyObject == null)
+        Move();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == enemyObject)
+        {
+            AttackPattern();//총알마다 적에 닿았을때 특수 능력
             Destroy(gameObject);
+        }
+    }
+    protected virtual void Move()
+    {
+        if (enemyObject == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         Vector2 dir = enemyObject.transform.position - transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         transform.position += moveDis * speed * Time.deltaTime;
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == enemyObject)
-        {
-            AttackPattern();
-            Destroy(gameObject);
-        }
     }
     protected abstract void AttackPattern();
 
