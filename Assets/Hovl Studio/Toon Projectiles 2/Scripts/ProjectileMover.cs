@@ -16,7 +16,7 @@ public class ProjectileMover : MonoBehaviour
     void Start()
     {
         gameObject.GetComponent<Renderer>().sortingOrder = 2;
-        rb = GetComponent<Rigidbody>();
+            rb = GetComponent<Rigidbody>();
         if (flash != null)
         {
             var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);

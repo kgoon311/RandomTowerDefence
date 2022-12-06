@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class BulletBase : MonoBehaviour
 {
     private float speed;
-    private float dmg;
+    protected float dmg;
     private Vector3 moveDis;
     private GameObject enemyObject;
 
