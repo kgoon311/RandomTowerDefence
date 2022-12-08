@@ -30,6 +30,18 @@ public class EnemyBase : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void Stern(int sternTime)
+    {
+        StartCoroutine(C_Stern(sternTime));
+    }
+    private IEnumerator C_Stern(int sternTime)
+    {
+        float orignSpeed = speed;
+
+        speed = 0;
+        yield return new WaitForSeconds(sternTime);
+        speed = orignSpeed;
+    }
     private IEnumerator HitColor()
     {
         SpriteRenderer color = GetComponent<SpriteRenderer>();

@@ -41,15 +41,20 @@ public class Turrets
     public List<TurretStats> ATKSpeedUp;
     public List<TurretStats> ATKDmgUp;
 }
+[System.Serializable]
+public class Bullets
+{
+    public GameObject[] Missile;
+    public GameObject[] Electric;
+    public GameObject[] Bullet;
 
+}
 public class TurretManager : Singleton<TurretManager>
 {
-    public Turrets TurretList = new Turrets();
-    public List<List<TurretStats>> RankTurret = new List<List<TurretStats>>();  
+    public Turrets turretList = new Turrets();
+    public Bullets bullets;
 
     public GameObject SpawnTurret;
-    public GameObject[] MissileObject;
-    public GameObject[] BulletObject;
 
     public void BuildTurret(Vector3 SpawnPos,int Rank)
     {
@@ -59,32 +64,33 @@ public class TurretManager : Singleton<TurretManager>
         {
             case ETurretType.Missile:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
-                TurretObject.TurretType = TurretList.Missile[Rank];
-                TurretObject.Bullet = MissileObject[Rank];
+                TurretObject.TurretType = turretList.Missile[Rank];
+                TurretObject.Bullet = bullets.Missile[Rank];
                 break;
             case ETurretType.Electricity:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<ElectricTurret>();
-                TurretObject.TurretType = TurretList.Electricity[Rank];
+                TurretObject.TurretType = turretList.Electricity[Rank];
+                TurretObject.Bullet = bullets.Electric[Rank];
                 break;
             case ETurretType.Bullet:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
-                TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject.TurretType = turretList.Missile[Rank];
                 break;
             case ETurretType.Laser:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
-                TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject.TurretType = turretList.Missile[Rank];
                 break;
             case ETurretType.Slow:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
-                TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject.TurretType = turretList.Missile[Rank];
                 break;
             case ETurretType.ATKSpeedUp:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
-                TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject.TurretType = turretList.Missile[Rank];
                 break;
             case ETurretType.ATKDmgUp:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
-                TurretObject.TurretType = TurretList.Missile[Rank];
+                TurretObject.TurretType = turretList.Missile[Rank];
                 break;
             default:
                 break;

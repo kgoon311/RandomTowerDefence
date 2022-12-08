@@ -7,17 +7,16 @@ public abstract class BulletBase : MonoBehaviour
     private float speed;
     protected float dmg;
     private Vector3 moveDis;
-    private GameObject enemyObject;
+    protected GameObject enemyObject;
 
-    //터렛에서 스폰 후 실행하는 셋팅 함수
-    public void AttackEnemy(GameObject enemy, float dmg , float speed)
+    protected LayerMask EnemyLayerMask;
+    protected LayerMask TurretLayerMask;
+    
+    protected virtual void Awake()
     {
-        this.dmg = dmg;
-        this.speed = speed;
-        enemyObject = enemy;
-        moveDis = (enemyObject.transform.position - transform.position).normalized;
+        EnemyLayerMask = LayerMask.GetMask("Enemy");
+        TurretLayerMask = LayerMask.GetMask("Turret");
     }
-
     protected virtual void Update()
     {
         Move();
@@ -29,6 +28,18 @@ public abstract class BulletBase : MonoBehaviour
             AttackPattern();//총알마다 적에 닿았을때 특수 능력
             Destroy(gameObject);
         }
+    }
+
+    //터렛에서 스폰 후 실행하는 셋팅 함수
+    public void AttackEnemy(GameObject enemy, float dmg, float speed)
+    {
+        EnemyLayerMask = LayerMask.GetMask("Enemy");
+        TurretLayerMask = LayerMask.GetMask("Turret");
+
+        this.dmg = dmg;
+        this.speed = speed;
+        enemyObject = enemy;
+        moveDis = (enemyObject.transform.position - transform.position).normalized;
     }
     protected virtual void Move()
     {
