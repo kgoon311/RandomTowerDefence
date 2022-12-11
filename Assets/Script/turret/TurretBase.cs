@@ -69,7 +69,7 @@ public class TurretBase : MonoBehaviour
             else if (OverTurret)//움직이는 중이고 다른 터렛에 겹쳤을 때
             {
                 TurretBase OverTurretScript = OverTurret.GetComponent<TurretBase>();
-                if (OverTurretScript.TurretType.Rank == this.TurretType.Rank && OverTurretScript.TurretType.type == this.TurretType.type)
+                if (OverTurretScript.TurretType.rank == this.TurretType.rank && OverTurretScript.TurretType.type == this.TurretType.type)
                 {
                     RankUp();
                 }
@@ -101,7 +101,7 @@ public class TurretBase : MonoBehaviour
     private void SettingRangeObj()
     {
         RangeObject = transform.GetChild(0).gameObject;//범위 표시 오브젝트
-        RangeObject.transform.localScale = Vector3.one * TurretType.Range;//범위 표시 오브젝트 
+        RangeObject.transform.localScale = Vector3.one * TurretType.range;//범위 표시 오브젝트 
         RangeObject.SetActive(false);
     }
     //드래그로 움직일 때 사용되는 함수
@@ -116,7 +116,7 @@ public class TurretBase : MonoBehaviour
     //같은 등급과 합쳐질때 사용되는 함수
     private void RankUp()
     {
-        TurretManager.Instance.BuildTurret(transform.position, TurretType.Rank + 1);
+        TurretManager.Instance.BuildTurret(transform.position, TurretType.rank + 1);
 
         Destroy(OverTurret);
         Destroy(gameObject);
@@ -149,7 +149,7 @@ public class ATK : TurretBase
     protected virtual void SearchEnemy()
     {
         searchObjects = new List<Collider2D>(Physics2D.OverlapBoxAll(transform.position, 
-            new Vector2(TurretType.Range, TurretType.Range), 0, EnemyLayerMask));
+            new Vector2(TurretType.range, TurretType.range), 0, EnemyLayerMask));
 
         if (TargetEnemy == null && searchObjects != null)
         {
@@ -178,8 +178,8 @@ public class ATK : TurretBase
             AttackPattern();
         }
 
-        float SumBufSpeed = TurretType.Buf_ATKSpeed.Sum();
-        float totalATKSpeed = 1f / (SumBufSpeed + TurretType.AttackSpeed); //1초동안 (기본 공속 + 버프)번 때리기
+        float SumBufSpeed = TurretType.buf_ATKSpeed.Sum();
+        float totalATKSpeed = 1f / (SumBufSpeed + TurretType.attackSpeed); //1초동안 (기본 공속 + 버프)번 때리기
 
         yield return new WaitForSeconds(totalATKSpeed);
         StartCoroutine(Attack());

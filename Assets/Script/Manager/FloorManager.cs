@@ -109,11 +109,11 @@ public class FloorManager : Singleton<FloorManager>
             TilePos = GrassTileMap.WorldToCell(Pos);//Vector3Int로 변환
 
             GrassTileMap.SetTile(TilePos, Grass);//잔디 설치
-            FakeDirt.SetTile(TilePos, Dirt);//가짜 흙 설치
+            FakeDirt.SetTile(TilePos, null);//가짜 흙 지우기
             DigTileMap.SetTile(TilePos, null);//흙 지우기
         }
 
-        TilePos = GrassTileMap.WorldToCell(RecentDigFloor);
+        TilePos = GrassTileMap.WorldToCell(RecentDigFloor);//다 초기화 후 처음 시작 흙 위치
 
         DiggingFloor.Clear();//초기화
         DiggingFloor.Add(RecentDigFloor);//시작지점 할당 
@@ -137,8 +137,10 @@ public class FloorManager : Singleton<FloorManager>
             {
                 //오버랩박스에 안걸리기 위해 흙블록을 페이크타일맵에 적용
                 FakeDirt.SetTile(TilePos, Dirt);
+                
                 TilePos = GrassTileMap.WorldToCell(RecentDigFloor);
-                DigTileMap.SetTile(TilePos, Dirt);
+                DigTileMap.SetTile(TilePos, Dirt);//이전 페이크 타일에 진짜 흙 타일 설치
+
                 RecentDigFloor = TargetFloor;
             }
             else
