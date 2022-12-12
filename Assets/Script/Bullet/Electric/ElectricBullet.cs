@@ -5,13 +5,19 @@ using System.Linq;
 
 public class ElectricBullet : BulletBase
 {
-    private LineRenderer lineResnderer;
-    [SerializeField] private float electricRange;
-    [SerializeField] private int atkCount;
+    [Header("Stats")]
+    [SerializeField] private float electricRange;//전격 공격 범위
+    [SerializeField] private int maxAtkCount;//최대 공격 적 카운트
+    private int arrayCount = 0; //배열에 할당된 갯수
+
+    [Header("LineRenderer")]
+    [SerializeField] private float sternTime;
+    private LineRenderer lineRenderer;
+
     protected override void Awake()
     {
         base.Awake();
-        lineResnderer = GetComponent<LineRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();
     }
     protected override void AttackPattern()
     {
@@ -19,33 +25,61 @@ public class ElectricBullet : BulletBase
         Collider2D[] hitEnemys = Physics2D.OverlapBoxAll(enemyObject.transform.position,
             Vector2.one * electricRange, 1, EnemyLayerMask);
 
-        float minDis = electricRange;//가장 가까운 거리
-        Collider2D[] closeEnemy = new Collider2D[atkCount];//가장 가까운 적들 배열
-        int array = 0;//배열에 할당된 갯수
+        
+        Collider2D[] closeEnemy = new Collider2D[maxAtkCount];//가장 가까운 적들 배열
+        
+
+        //처음 닿은 적에서 부터 가장 가까운 적들 색출
         foreach (Collider2D enemy in hitEnemys)
         {
-            //foreach에서 돌고 있는 적과의 거리
+            //foreach에서 돌고 있는 enemy와 총알에 맞은 hitEnemy와의 거리
             float enemyDis = Vector2.Distance(transform.position, enemy.transform.position);
-            if (array < atkCount)
+
+            //꽉 차지 않았으면 그냥 바로 할당 하고 정렬하기
+            if (arrayCount < maxAtkCount)
             {
-                closeEnemy[array] = enemy;
-                array++;
+                closeEnemy[arrayCount] = enemy;
+                arrayCount++;
+
+                
+                if(arrayCount == maxAtkCount -1)
+                    closeEnemy.OrderBy(x => Vector2.Distance(transform.position, x.transform.position));//배열이 꽉 찼을 시 거리가 작은 순으로 정렬
+                continue;
+            }
+
+            //배열중 가장 먼 적과 총알에 맞은 hitEnemy와의 거리
+            float originDis = Vector2.Distance(transform.position, closeEnemy[maxAtkCount - 1].transform.position);
+            //마지막 배열보다 가까우면 현재 enemy를 배열에 넣고 정렬
+            if (enemyDis < originDis)
+            {
+                closeEnemy[maxAtkCount - 1] = enemy;
 
                 closeEnemy.OrderBy(x => transform.position - x.transform.position);
-                break;
             }
-            for (int i = atkCount - 1; i >= 0; i--)
-            {
-                //배열 안에있는 적과의 거리
-                float originDis = Vector2.Distance(transform.position, closeEnemy[i].transform.position);
-                if (enemyDis < originDis)
-                {
-                    closeEnemy[i] = enemy;
+        }
 
-                    closeEnemy.OrderBy(x => transform.position - x.transform.position);
-                    break;
-                }
-            }
+        //처음 적 부터 가까운 적들 까지 체인 만들기
+        for(int i = 0;i< arrayCount; i++)
+        {
+            //적 자식에 빈 오브젝트 소환
+            GameObject lineObject = new GameObject("Line");
+            lineObject.transform.parent = enemyObject.transform;
+
+            //라인 렌더러 스크립트 넣기
+            LineRenderer line = lineObject.AddComponent<LineRenderer>();
+
+            line.sortingOrder = 1;
+
+            //머터리얼 적용
+            line.materials = lineRenderer.materials;
+
+            //처음 총알 맞은 적과 주변 가까운 적들과 연결
+            line.SetPosition(0, enemyObject.transform.position);
+            line.SetPosition(1, closeEnemy[i].transform.position);
+
+            //시간이 되면 사라지기
+            closeEnemy[i].GetComponent<EnemyBase>().Stern(sternTime);
+            Destroy(lineObject, sternTime);
         }
     }
 }

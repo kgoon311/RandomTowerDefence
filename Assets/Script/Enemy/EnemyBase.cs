@@ -12,14 +12,17 @@ public class EnemyBase : MonoBehaviour
 
     [SerializeField] private float hp;
     [SerializeField] private float speed;
+    private float orignSpeed;
 
     [SerializeField] private int dropMoney;
 
     private void Awake()
     {
         movePos = FloorManager.Instance.DiggingFloor;
+        orignSpeed = speed;
         StartCoroutine("Move");
     }
+
     public void OnHit(float Dmg)
     {
         hp -= Dmg;
@@ -30,14 +33,13 @@ public class EnemyBase : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void Stern(int sternTime)
+
+    public void Stern(float sternTime)
     {
         StartCoroutine(C_Stern(sternTime));
     }
-    private IEnumerator C_Stern(int sternTime)
+    private IEnumerator C_Stern(float sternTime)
     {
-        float orignSpeed = speed;
-
         speed = 0;
         yield return new WaitForSeconds(sternTime);
         speed = orignSpeed;
@@ -74,7 +76,7 @@ public class EnemyBase : MonoBehaviour
             Vector3 pos = transform.position;
             while (timer > 0)
             {
-                timer -= Time.deltaTime / (speed + slowDebuff.Sum());
+                timer -= Time.deltaTime * speed / (slowDebuff.Sum() + 1);
                 transform.position = Vector3.Lerp( movePos[i], pos, timer);//타일맵에 맞추기 위해 x,y좌표에 0.5f 더하기
                 yield return null;
             }

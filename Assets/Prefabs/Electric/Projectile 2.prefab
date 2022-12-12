@@ -14586,7 +14586,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -14620,9 +14620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c1bf07f459f4d144b1c5d9a69c1254a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineResnderer: {fileID: 5055695557070976451}
   electricRange: 5
-  atkCount: 5
+  maxAtkCount: 5
+  sternTime: 0.5
 --- !u!120 &5055695557070976451
 LineRenderer:
   m_ObjectHideFlags: 0
