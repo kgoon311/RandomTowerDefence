@@ -1438,6 +1438,7 @@ MonoBehaviour:
   turretList:
     Missile:
     - type: 0
+      sprite: {fileID: 21300000, guid: 4329b141af441f742ab17c6ab47bb43b, type: 3}
       dmg: 5
       attackSpeed: 1
       bulletSpeed: 8
@@ -1446,6 +1447,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 0
+      sprite: {fileID: 21300000, guid: 4329b141af441f742ab17c6ab47bb43b, type: 3}
       dmg: 5
       attackSpeed: 1
       bulletSpeed: 8
@@ -1454,6 +1456,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 0
+      sprite: {fileID: 21300000, guid: 4329b141af441f742ab17c6ab47bb43b, type: 3}
       dmg: 5
       attackSpeed: 1
       bulletSpeed: 8
@@ -1462,6 +1465,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 0
+      sprite: {fileID: 0}
       dmg: 5
       attackSpeed: 1
       bulletSpeed: 8
@@ -1470,6 +1474,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 0
+      sprite: {fileID: 0}
       dmg: 5
       attackSpeed: 1
       bulletSpeed: 8
@@ -1479,6 +1484,7 @@ MonoBehaviour:
       buf_ATKSpeed: []
     Electricity:
     - type: 1
+      sprite: {fileID: 0}
       dmg: 3
       attackSpeed: 1
       bulletSpeed: 10
@@ -1487,6 +1493,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 1
+      sprite: {fileID: 0}
       dmg: 3
       attackSpeed: 1
       bulletSpeed: 10
@@ -1495,6 +1502,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 1
+      sprite: {fileID: 0}
       dmg: 3
       attackSpeed: 1
       bulletSpeed: 10
@@ -1503,6 +1511,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 1
+      sprite: {fileID: 0}
       dmg: 3
       attackSpeed: 1
       bulletSpeed: 10
@@ -1511,6 +1520,7 @@ MonoBehaviour:
       buf_Power: []
       buf_ATKSpeed: []
     - type: 1
+      sprite: {fileID: 0}
       dmg: 3
       attackSpeed: 1
       bulletSpeed: 10
@@ -1540,7 +1550,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   SpawnTurret: {fileID: 5797940127645464996, guid: ff70417dfe0d05d40aa05a6ad7e00adb, type: 3}
-  testTurretidx: 1
+  testTurretidx: 0
 --- !u!4 &1411573595
 Transform:
   m_ObjectHideFlags: 0
@@ -4348,6 +4358,10 @@ PrefabInstance:
     - target: {fileID: 4988011698294323936, guid: 969473aa69b38514aab3bafba897aa17, type: 3}
       propertyPath: m_Name
       value: tester
+      objectReference: {fileID: 0}
+    - target: {fileID: 4988011698294323936, guid: 969473aa69b38514aab3bafba897aa17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4988011698294323943, guid: 969473aa69b38514aab3bafba897aa17, type: 3}
       propertyPath: m_RootOrder

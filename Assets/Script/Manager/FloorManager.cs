@@ -8,7 +8,7 @@ public class FloorManager : Singleton<FloorManager>
     [Header("TileMap")]
     [SerializeField] Tilemap GrassTileMap;
     [SerializeField] Tilemap DigTileMap;
-    [SerializeField] Tilemap FakeDirt;//화면 상으로만 바로 전 블록 파져있게
+    [SerializeField] Tilemap FakeDirt;//화면 상으로만 바로 이전 블록 파져있게
     [SerializeField] Tile Grass;
     [SerializeField] Tile Dirt;
 
@@ -26,7 +26,14 @@ public class FloorManager : Singleton<FloorManager>
     private Vector3 mousePosition;
 
     [Header("Turret")]
-    [SerializeField] GameObject TurretBase;
+    [SerializeField] private GameObject TurretBase;
+    [Tooltip("터렛 선택 숫자키보드들")]
+    private KeyCode[] selectKeycodes = {
+        KeyCode.Alpha0,
+        KeyCode.Alpha1,
+        KeyCode.Alpha2,
+        KeyCode.Alpha2
+    };
     private bool isSelectTurret;
     private int selectTurretCost;
     
@@ -51,6 +58,10 @@ public class FloorManager : Singleton<FloorManager>
         mousePosition = new Vector2(Mathf.Floor(mousePosition.x) + 0.5f, Mathf.Floor(mousePosition.y) + 0.5f);
 
         if (Input.GetKeyDown(KeyCode.R) && isDigEnd == false) ResetFloor();
+        
+        //키보드 숫자키보드로 터렛 선택
+        for(int code = 0;code<selectKeycodes.Length;code++)
+            if(Input.GetKeyDown(selectKeycodes[code]) && isDigEnd) OnClickSelectTurret(code);
 
         if (Input.GetMouseButtonDown(0)) L_ClickAction();//클릭했을때
         else if (Input.GetMouseButtonDown(2)) R_ClickAction();

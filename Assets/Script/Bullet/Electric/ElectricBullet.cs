@@ -8,10 +8,9 @@ public class ElectricBullet : BulletBase
     [Header("Stats")]
     [SerializeField] private float electricRange;//전격 공격 범위
     [SerializeField] private int maxAtkCount;//최대 공격 적 카운트
+    [SerializeField] private float sternTime;  
     private int arrayCount = 0; //배열에 할당된 갯수
 
-    [Header("LineRenderer")]
-    [SerializeField] private float sternTime;
     private LineRenderer lineRenderer;
 
     protected override void Awake()
@@ -26,7 +25,7 @@ public class ElectricBullet : BulletBase
             Vector2.one * electricRange, 1, EnemyLayerMask);
 
         
-        Collider2D[] closeEnemy = new Collider2D[maxAtkCount];//가장 가까운 적들 배열
+        Collider2D[] closeEnemy = new Collider2D[maxAtkCount];//가장 가까운 적을 넣는 배열
         
 
         //처음 닿은 적에서 부터 가장 가까운 적들 색출
@@ -65,21 +64,20 @@ public class ElectricBullet : BulletBase
             GameObject lineObject = new GameObject("Line");
             lineObject.transform.parent = enemyObject.transform;
 
-            //라인 렌더러 스크립트 넣기
             LineRenderer line = lineObject.AddComponent<LineRenderer>();
-
             line.sortingOrder = 1;
-
-            //머터리얼 적용
             line.materials = lineRenderer.materials;
 
             //처음 총알 맞은 적과 주변 가까운 적들과 연결
             line.SetPosition(0, enemyObject.transform.position);
             line.SetPosition(1, closeEnemy[i].transform.position);
 
-            //시간이 되면 사라지기
-            closeEnemy[i].GetComponent<EnemyBase>().Stern(sternTime);
-            Destroy(lineObject, sternTime);
+            EnemyBase enemyBase = closeEnemy[i].GetComponent<EnemyBase>();
+            enemyBase.Stern(sternTime);
+            enemyBase.OnHit(dmg);
+
+            //모든 체인 삭제
+            Destroy(lineObject, 0.5f);
         }
     }
 }

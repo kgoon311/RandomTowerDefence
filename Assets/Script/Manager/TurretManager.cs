@@ -19,6 +19,7 @@ public enum ETurretType
 public class TurretStats
 {
     public ETurretType type;
+    public Sprite sprite;
     [Header("Stat")]
     public float dmg;
     public float attackSpeed;
@@ -63,7 +64,7 @@ public class TurretManager : Singleton<TurretManager>
     public void BuildTurret(Vector3 SpawnPos,int Rank)
     {
         ETurretType type = (ETurretType)testTurretidx;//Random.Range(0,1(int)ETurretType.END);
-        TurretBase TurretObject;
+        TurretBase TurretObject = new TurretBase();
         switch (type)
         {
             case ETurretType.Missile:

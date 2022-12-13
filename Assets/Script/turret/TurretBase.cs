@@ -30,12 +30,14 @@ public class TurretBase : MonoBehaviour
     {
         BeforePos = transform.position;
 
+
         EnemyLayerMask = LayerMask.GetMask("Enemy");
         TurretLayerMask = LayerMask.GetMask("Turret");
     }
     protected virtual void Start()
     {
         SettingRangeObj();
+        GetComponent<SpriteRenderer>().sprite = TurretType.sprite;
 
     }
     protected virtual void Update()

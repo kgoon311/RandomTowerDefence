@@ -16,6 +16,8 @@ public class EnemyBase : MonoBehaviour
 
     [SerializeField] private int dropMoney;
 
+    Coroutine strun;
+
     private void Awake()
     {
         movePos = FloorManager.Instance.DiggingFloor;
@@ -36,7 +38,9 @@ public class EnemyBase : MonoBehaviour
 
     public void Stern(float sternTime)
     {
-        StartCoroutine(C_Stern(sternTime));
+        if(strun != null)
+            StopCoroutine(strun);
+        strun = StartCoroutine(C_Stern(sternTime));
     }
     private IEnumerator C_Stern(float sternTime)
     {
