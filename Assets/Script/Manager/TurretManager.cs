@@ -28,8 +28,8 @@ public class TurretStats
     public int rank;
     public float range;
     [Header("buff")]
-    public List<float> buf_Power;
-    public List<float> buf_ATKSpeed;
+    public float buf_Power;
+    public float buf_ATKSpeed;
 }
 
 //葛电 磐房 包府

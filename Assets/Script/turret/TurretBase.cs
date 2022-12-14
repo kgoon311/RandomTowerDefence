@@ -180,8 +180,7 @@ public class ATK : TurretBase
             AttackPattern();
         }
 
-        float SumBufSpeed = TurretType.buf_ATKSpeed.Sum();
-        float totalATKSpeed = 1f / (SumBufSpeed + TurretType.attackSpeed); //1초동안 (기본 공속 + 버프)번 때리기
+        float totalATKSpeed = 1f / (TurretType.attackSpeed + TurretType.buf_ATKSpeed); //1초동안 (기본 공속 + 버프)번 때리기
 
         yield return new WaitForSeconds(totalATKSpeed);
         StartCoroutine(Attack());
