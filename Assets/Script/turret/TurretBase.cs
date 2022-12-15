@@ -167,10 +167,18 @@ public class ATK : TurretBase
                 }
             }
         }
-        else if (!searchObjects.Find((x) => x.gameObject == TargetEnemy))
+        else if (TargetEnemy != null)
+        {
+            Vector2 dir = TargetEnemy.transform.position - transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + -90;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+
+        if (!searchObjects.Find((x) => x.gameObject == TargetEnemy))
         {
             TargetEnemy = null;
         }
+        
     }
 
     private IEnumerator Attack()
@@ -178,6 +186,8 @@ public class ATK : TurretBase
         if (TargetEnemy != null)
         {
             AttackPattern();
+
+           
         }
 
         float totalATKSpeed = 1f / (TurretType.attackSpeed + TurretType.buf_ATKSpeed); //1초동안 (기본 공속 + 버프)번 때리기
