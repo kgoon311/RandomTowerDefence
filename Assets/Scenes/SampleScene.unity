@@ -1444,8 +1444,8 @@ MonoBehaviour:
       bulletSpeed: 8
       rank: 0
       range: 5
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 0
       sprite: {fileID: 21300000, guid: 4329b141af441f742ab17c6ab47bb43b, type: 3}
       dmg: 5
@@ -1453,8 +1453,8 @@ MonoBehaviour:
       bulletSpeed: 8
       rank: 1
       range: 5
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 0
       sprite: {fileID: 21300000, guid: 4329b141af441f742ab17c6ab47bb43b, type: 3}
       dmg: 5
@@ -1462,8 +1462,8 @@ MonoBehaviour:
       bulletSpeed: 8
       rank: 2
       range: 5
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 0
       sprite: {fileID: 0}
       dmg: 5
@@ -1471,8 +1471,8 @@ MonoBehaviour:
       bulletSpeed: 8
       rank: 3
       range: 5
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 0
       sprite: {fileID: 0}
       dmg: 5
@@ -1480,8 +1480,8 @@ MonoBehaviour:
       bulletSpeed: 8
       rank: 4
       range: 5
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     Electricity:
     - type: 1
       sprite: {fileID: 0}
@@ -1490,8 +1490,8 @@ MonoBehaviour:
       bulletSpeed: 10
       rank: 0
       range: 6
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 1
       sprite: {fileID: 0}
       dmg: 3
@@ -1499,8 +1499,8 @@ MonoBehaviour:
       bulletSpeed: 10
       rank: 1
       range: 6
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 1
       sprite: {fileID: 0}
       dmg: 3
@@ -1508,8 +1508,8 @@ MonoBehaviour:
       bulletSpeed: 10
       rank: 2
       range: 6
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 1
       sprite: {fileID: 0}
       dmg: 3
@@ -1517,8 +1517,8 @@ MonoBehaviour:
       bulletSpeed: 10
       rank: 3
       range: 6
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     - type: 1
       sprite: {fileID: 0}
       dmg: 3
@@ -1526,8 +1526,8 @@ MonoBehaviour:
       bulletSpeed: 10
       rank: 4
       range: 6
-      buf_Power: []
-      buf_ATKSpeed: []
+      buf_Power: 0
+      buf_ATKSpeed: 0
     Bullet: []
     Laser: []
     Slow: []
@@ -4361,7 +4361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4988011698294323936, guid: 969473aa69b38514aab3bafba897aa17, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4988011698294323943, guid: 969473aa69b38514aab3bafba897aa17, type: 3}
       propertyPath: m_RootOrder

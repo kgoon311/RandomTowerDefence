@@ -73,15 +73,20 @@ public class EnemyBase : MonoBehaviour
     private IEnumerator Move()
     {
         int digCount = movePos.Count;
-
         for (int i = 0; i < digCount; i++)
         {
-            float timer = 1;
-            Vector3 pos = transform.position;
-            while (timer > 0)
+            float timer = 0;
+            Vector2 pos = transform.position;
+
+            while (timer < 1)
             {
-                timer -= Time.deltaTime * speed / (slowDebuff.Sum() + 1);
-                transform.position = Vector3.Lerp( movePos[i], pos, timer);//타일맵에 맞추기 위해 x,y좌표에 0.5f 더하기
+                timer += Time.deltaTime * speed / (slowDebuff.Sum() + 1);
+                transform.position = Vector3.Lerp( pos, movePos[i], timer);//타일맵에 맞추기 위해 x,y좌표에 0.5f 더하기
+
+                Vector2 dir = movePos[i] - pos;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
                 yield return null;
             }
         }
