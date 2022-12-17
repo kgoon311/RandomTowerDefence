@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class test : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public ParticleSystem.MainModule p;
-    void Start()
-    {
-        Debug.Log("a1");
-    }
-
-    // Update is called once per frame
+    [SerializeField] GameObject testEnemy;
+    [SerializeField] Vector3 spawnPos;
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            Instantiate(testEnemy, spawnPos, transform.rotation);
+        }
     }
 }

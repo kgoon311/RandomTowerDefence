@@ -63,7 +63,7 @@ public class TurretManager : Singleton<TurretManager>
 
     public void BuildTurret(Vector3 SpawnPos,int Rank)
     {
-        ETurretType type = (ETurretType)testTurretidx;//Random.Range(0,1(int)ETurretType.END);
+        ETurretType type = (ETurretType)Random.Range(0, (int)ETurretType.END); /*(ETurretType)testTurretidx;*/
         TurretBase TurretObject = new TurretBase();
         switch (type)
         {
