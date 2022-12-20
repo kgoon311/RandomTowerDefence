@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileTurret : ATK
+public class GunTurret : ATK
 {
     protected override void AttackPattern()
     {
