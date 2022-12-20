@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class LaserTurret : ATK
 {
-    private int LayerCount;
+    private int layerCount;
 
-    private GameObject BeforEnemyObject;//같은 적인지 확인할때 사용됩니다
+    public ParticleSystem chargeParticle;
+
+    private GameObject beforEnemyObject;//같은 적인지 확인할때 사용됩니다
     private LineRenderer lineRenderer;
     private EnemyBase enemyScript;
     protected override void Start()
@@ -17,23 +19,28 @@ public class LaserTurret : ATK
     }
     protected override void AttackPattern()
     {
-        if (TargetEnemy != BeforEnemyObject)
+        if (TargetEnemy != beforEnemyObject)//적이 달라졌을때 실행
         {
-            LayerCount = 0;
-            BeforEnemyObject = TargetEnemy;
+            layerCount = 0;
+            beforEnemyObject = TargetEnemy;
 
             enemyScript = TargetEnemy.GetComponent<EnemyBase>();
-            lineRenderer.SetPosition(1, transform.position);
-
         }
-        else
-        {
-            lineRenderer.SetPosition(1, TargetEnemy.transform.position);
-            TargetEnemy.GetComponent<EnemyBase>();
+        StartCoroutine(LayerAttack());
+    }
+    private IEnumerator LayerAttack()
+    {
+        chargeParticle.Play();
+        yield return new WaitForSeconds(0.5f);
+        chargeParticle.Stop();
 
-            enemyScript.OnHit(TurretType.dmg + 5 * LayerCount);
+        lineRenderer.SetPosition(1, TargetEnemy.transform.position);
+        TargetEnemy.GetComponent<EnemyBase>();
 
-            LayerCount++;
-        }
+        enemyScript.OnHit(TurretType.dmg + 5 * layerCount);
+
+        layerCount++;
+        yield return new WaitForSeconds(0.5f);
+        lineRenderer.SetPosition(1, transform.position);
     }
 }
