@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class LaserTurret : ATK
 {
-    private int layerCount;
+    private int layerStack;
 
-    public ParticleSystem chargeParticle;
+    [HideInInspector] public GameObject chargeParticle;
 
     private GameObject beforEnemyObject;//같은 적인지 확인할때 사용됩니다
     private LineRenderer lineRenderer;
@@ -21,7 +21,7 @@ public class LaserTurret : ATK
     {
         if (TargetEnemy != beforEnemyObject)//적이 달라졌을때 실행
         {
-            layerCount = 0;
+            layerStack = 0;
             beforEnemyObject = TargetEnemy;
 
             enemyScript = TargetEnemy.GetComponent<EnemyBase>();
@@ -30,16 +30,16 @@ public class LaserTurret : ATK
     }
     private IEnumerator LayerAttack()
     {
-        chargeParticle.Play();
+        //차지 파티클 오브젝트 소환
+        GameObject paricleObject = Instantiate(chargeParticle, transform.position, transform.rotation,transform.parent);
+
         yield return new WaitForSeconds(0.5f);
-        chargeParticle.Stop();
+
+        Destroy(paricleObject);
 
         lineRenderer.SetPosition(1, TargetEnemy.transform.position);
-        TargetEnemy.GetComponent<EnemyBase>();
+        enemyScript.OnHit(TurretType.dmg + 5 * layerStack++);
 
-        enemyScript.OnHit(TurretType.dmg + 5 * layerCount);
-
-        layerCount++;
         yield return new WaitForSeconds(0.5f);
         lineRenderer.SetPosition(1, transform.position);
     }

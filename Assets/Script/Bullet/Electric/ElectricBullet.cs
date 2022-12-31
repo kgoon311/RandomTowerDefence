@@ -8,10 +8,10 @@ public class ElectricBullet : BulletBase
     [Header("Stats")]
     [SerializeField] private float electricRange;//전격 공격 범위
     [SerializeField] private int maxAtkCount;//최대 공격 적 카운트
-    [SerializeField] private float sternTime;  
+    [SerializeField] private float sternTime;//기절 시간
     private int arrayCount = 0; //배열에 할당된 갯수
 
-    private LineRenderer lineRenderer;
+    private LineRenderer lineRenderer;//라인랜더러를 복사할 때 사용하는 원본 오브젝트
 
     protected override void Awake()
     {
@@ -24,8 +24,9 @@ public class ElectricBullet : BulletBase
         Collider2D[] hitEnemys = Physics2D.OverlapBoxAll(enemyObject.transform.position,
             Vector2.one * electricRange, 1, EnemyLayerMask);
 
-        
-        Collider2D[] closeEnemy = new Collider2D[maxAtkCount];//가장 가까운 적을 넣는 배열
+        //가장 가까운 적을 넣는 배열
+
+        Collider2D[] closeEnemy = new Collider2D[maxAtkCount];
         
 
         //처음 닿은 적에서 부터 가장 가까운 적들 색출
@@ -39,7 +40,6 @@ public class ElectricBullet : BulletBase
             {
                 closeEnemy[arrayCount] = enemy;
                 arrayCount++;
-
                 
                 if(arrayCount == maxAtkCount -1)
                     closeEnemy.OrderBy(x => Vector2.Distance(transform.position, x.transform.position));//배열이 꽉 찼을 시 거리가 작은 순으로 정렬

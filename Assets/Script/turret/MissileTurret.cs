@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class MissileTurret : ATK
 {
-
+    protected override void AttackPattern()
+    {
+        base.AttackPattern();
+    }
 }

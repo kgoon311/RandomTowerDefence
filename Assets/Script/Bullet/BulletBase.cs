@@ -31,7 +31,7 @@ public abstract class BulletBase : MonoBehaviour
     }
 
     //터렛에서 스폰 후 실행하는 셋팅 함수
-    public void AttackEnemy(GameObject enemy, float dmg, float speed)
+    public virtual void AttackEnemy(GameObject enemy, float dmg, float speed)
     {
         EnemyLayerMask = LayerMask.GetMask("Enemy");
         TurretLayerMask = LayerMask.GetMask("Turret");

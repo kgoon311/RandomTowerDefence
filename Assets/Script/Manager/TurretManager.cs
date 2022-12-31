@@ -54,16 +54,21 @@ public class Bullets
 }
 public class TurretManager : Singleton<TurretManager>
 {
+    [Header("Inspector")]
     public Turrets turretList = new Turrets();
     public Bullets bullets;
 
+    [Header ("Laser")]
+    public GameObject laserParticle;
+
+    [Header("Object")]
     public GameObject SpawnTurret;
 
-    [SerializeField] int testTurretidx;
+    [SerializeField] ETurretType testTurretidx;
 
     public void BuildTurret(Vector3 SpawnPos,int Rank)
     {
-        ETurretType type = /*(ETurretType)Random.Range(0, (int)ETurretType.END);*/ (ETurretType)testTurretidx;
+        ETurretType type = /*(ETurretType)Random.Range(0, (int)ETurretType.END);*/ testTurretidx;
         TurretBase TurretObject = new TurretBase();
         switch (type)
         {
@@ -82,8 +87,9 @@ public class TurretManager : Singleton<TurretManager>
                 TurretObject.TurretType = turretList.Missile[Rank];
                 break;
             case ETurretType.Laser:
-                TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
-                TurretObject.TurretType = turretList.Missile[Rank];
+                LaserTurret laserTurret = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<LaserTurret>();
+                laserTurret.TurretType = turretList.Missile[Rank];
+                laserTurret.chargeParticle = laserParticle;
                 break;
             case ETurretType.Slow:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();
