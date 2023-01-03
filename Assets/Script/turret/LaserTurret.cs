@@ -33,12 +33,13 @@ public class LaserTurret : ATK
         //차지 파티클 오브젝트 소환
         GameObject paricleObject = Instantiate(chargeParticle, transform.position, transform.rotation,transform.parent);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         Destroy(paricleObject);
+        if (TargetEnemy == null) yield break;
 
         lineRenderer.SetPosition(1, TargetEnemy.transform.position);
-        enemyScript.OnHit(TurretType.dmg + 5 * layerStack++);
+        enemyScript.OnHit(TurretType.dmg * layerStack++);
 
         yield return new WaitForSeconds(0.5f);
         lineRenderer.SetPosition(1, transform.position);

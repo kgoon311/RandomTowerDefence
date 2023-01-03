@@ -1463,7 +1463,16 @@ MonoBehaviour:
       buf_Power: 0
       buf_ATKSpeed: 0
     Gatling: []
-    Laser: []
+    Laser:
+    - type: 0
+      sprite: {fileID: 0}
+      dmg: 0
+      attackSpeed: 0
+      bulletSpeed: 0
+      rank: 0
+      range: 0
+      buf_Power: 0
+      buf_ATKSpeed: 0
     Slow: []
     ATKSpeedUp: []
     ATKDmgUp: []
@@ -1483,8 +1492,9 @@ MonoBehaviour:
     Bullet:
     - {fileID: 0}
     - {fileID: 0}
+  laserParticle: {fileID: 5097576273875523140, guid: bbbcef5e5db53ce41af7b392692eba2f, type: 3}
   SpawnTurret: {fileID: 5797940127645464996, guid: ff70417dfe0d05d40aa05a6ad7e00adb, type: 3}
-  testTurretidx: 0
+  testTurretidx: 3
 --- !u!4 &1411573595
 Transform:
   m_ObjectHideFlags: 0
