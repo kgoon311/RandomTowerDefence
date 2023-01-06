@@ -6,16 +6,23 @@ public class LaserTurret : ATK
 {
     private int layerStack;
 
-    [HideInInspector] public GameObject chargeParticle;
+    private GameObject chargeParticle;
 
     private GameObject beforEnemyObject;//같은 적인지 확인할때 사용됩니다
-    private LineRenderer lineRenderer;
     private EnemyBase enemyScript;
+
+    private LineRenderer lineRenderer;
+    private Material m_ChargeMatarial;
     protected override void Start()
     {
         base.Start();
+        m_ChargeMatarial = TurretManager.Instance.laserMaterial;
+        chargeParticle = TurretManager.Instance.laserParticle;
+
         lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, transform.position);
+        lineRenderer.material = m_ChargeMatarial;
+
     }
     protected override void AttackPattern()
     {
@@ -38,10 +45,10 @@ public class LaserTurret : ATK
         Destroy(paricleObject);
         if (TargetEnemy == null) yield break;
 
-        lineRenderer.SetPosition(1, TargetEnemy.transform.position);
+        lineRenderer.SetPosition(0, TargetEnemy.transform.position);
         enemyScript.OnHit(TurretType.dmg * layerStack++);
 
         yield return new WaitForSeconds(0.5f);
-        lineRenderer.SetPosition(1, transform.position);
+        lineRenderer.SetPosition(0, transform.position);
     }
 }

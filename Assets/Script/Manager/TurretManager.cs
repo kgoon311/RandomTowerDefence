@@ -60,6 +60,7 @@ public class TurretManager : Singleton<TurretManager>
 
     [Header ("Laser")]
     public GameObject laserParticle;
+    public Material laserMaterial;
 
     [Header("Object")]
     public GameObject SpawnTurret;
@@ -89,7 +90,6 @@ public class TurretManager : Singleton<TurretManager>
             case ETurretType.Laser:
                 LaserTurret laserTurret = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<LaserTurret>();
                 laserTurret.TurretType = turretList.Missile[Rank];
-                laserTurret.chargeParticle = laserParticle;
                 break;
             case ETurretType.Slow:
                 TurretObject = Instantiate(SpawnTurret, SpawnPos, transform.rotation).AddComponent<MissileTurret>();

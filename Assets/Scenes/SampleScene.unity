@@ -1493,6 +1493,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   laserParticle: {fileID: 5097576273875523140, guid: bbbcef5e5db53ce41af7b392692eba2f, type: 3}
+  laserMaterial: {fileID: 2100000, guid: e4fc11a7fd6be5340b14c4f35c450dbb, type: 2}
   SpawnTurret: {fileID: 5797940127645464996, guid: ff70417dfe0d05d40aa05a6ad7e00adb, type: 3}
   testTurretidx: 3
 --- !u!4 &1411573595
