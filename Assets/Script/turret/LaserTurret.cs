@@ -20,7 +20,10 @@ public class LaserTurret : ATK
         chargeParticle = TurretManager.Instance.laserParticle;
 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
+
+        lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, transform.position);
+
         lineRenderer.material = m_ChargeMatarial;
 
     }
@@ -40,7 +43,13 @@ public class LaserTurret : ATK
         //차지 파티클 오브젝트 소환
         GameObject paricleObject = Instantiate(chargeParticle, transform.position, transform.rotation,transform.parent);
 
-        yield return new WaitForSeconds(1f);
+        float timer = 2;
+        while(timer > 0)
+        {
+            timer -= Time.deltaTime * 2;
+            lineRenderer.SetWidth(timer, timer);
+            yield return null;
+        }
 
         Destroy(paricleObject);
         if (TargetEnemy == null) yield break;
