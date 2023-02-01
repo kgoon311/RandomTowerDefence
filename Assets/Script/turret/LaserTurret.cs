@@ -13,6 +13,8 @@ public class LaserTurret : ATK
 
     private LineRenderer lineRenderer;
     private Material m_ChargeMatarial;
+
+    private bool attacking = false;
     protected override void Start()
     {
         base.Start();
@@ -29,6 +31,8 @@ public class LaserTurret : ATK
     }
     protected override void AttackPattern()
     {
+        if (attacking) return;//공격중일 때는 공격x
+
         if (TargetEnemy != beforEnemyObject)//적이 달라졌을때 실행
         {
             layerStack = 0;
@@ -42,22 +46,44 @@ public class LaserTurret : ATK
     {
         //차지 파티클 오브젝트 소환
         GameObject paricleObject = Instantiate(chargeParticle, transform.position, transform.rotation,transform.parent);
+        attacking = true;
+        lineRenderer.SetWidth(2, 2);
 
-        float timer = 2;
-        while(timer > 0)
+        yield return new WaitForSeconds(1f);
+
+        Destroy(paricleObject);
+        if (TargetEnemy == null)//만약 차징중 적이 사라졌을때 예외처리
         {
-            timer -= Time.deltaTime * 2;
+            attacking = false;
+            yield break;
+        }
+
+        float timer = 0;
+        Vector2 enemypos = TargetEnemy.gameObject.transform.position;
+        while (timer < 1)//적을 향해 레이저를 발사
+        {
+            timer += Time.deltaTime * 3;
+            lineRenderer.SetPosition(0,Vector2.Lerp(transform.position, enemypos, timer));
+            yield return null;
+        }
+
+        if (enemyScript == null) //만약 레이저 발사중 적이 사라졌을 때 예외처리
+        {
+            lineRenderer.SetPosition(0, transform.position);    
+            attacking = false;
+            yield break;
+        }
+        enemyScript.OnHit(TurretType.dmg * layerStack++);
+
+        timer = 2f;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime * 4;
             lineRenderer.SetWidth(timer, timer);
             yield return null;
         }
 
-        Destroy(paricleObject);
-        if (TargetEnemy == null) yield break;
-
-        lineRenderer.SetPosition(0, TargetEnemy.transform.position);
-        enemyScript.OnHit(TurretType.dmg * layerStack++);
-
-        yield return new WaitForSeconds(0.5f);
+        attacking = false;
         lineRenderer.SetPosition(0, transform.position);
     }
 }
