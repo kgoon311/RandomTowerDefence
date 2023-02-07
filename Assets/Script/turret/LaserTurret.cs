@@ -27,7 +27,6 @@ public class LaserTurret : ATK
         lineRenderer.SetPosition(1, transform.position);
 
         lineRenderer.material = m_ChargeMatarial;
-
     }
     protected override void AttackPattern()
     {
@@ -45,7 +44,8 @@ public class LaserTurret : ATK
     private IEnumerator LayerAttack()
     {
         //차지 파티클 오브젝트 소환
-        GameObject paricleObject = Instantiate(chargeParticle, transform.position, transform.rotation,transform.parent);
+        GameObject paricleObject = Instantiate(chargeParticle, transform.position, transform.rotation,gameObject.transform);
+
         attacking = true;
         lineRenderer.SetWidth(2, 2);
 

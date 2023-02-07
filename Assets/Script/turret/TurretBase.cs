@@ -75,6 +75,8 @@ public class TurretBase : MonoBehaviour
                 {
                     RankUp();
                 }
+                else
+                    transform.position = BeforePos;
             }
 
             Move = false;
@@ -195,6 +197,7 @@ public class ATK : TurretBase
     protected virtual void AttackPattern() {
         BulletBase BulletObject = Instantiate(Bullet, transform.position, transform.rotation).GetComponent<BulletBase>();
         BulletObject.AttackEnemy(TargetEnemy, TurretType.dmg, TurretType.bulletSpeed);
+        BulletObject.transform.parent = gameObject.transform;
     }
 }
 public class SUP : TurretBase

@@ -12,7 +12,7 @@ public class MissileObject : BulletBase
     }
     protected override void AttackPattern()
     {
-        GameObject effect = Instantiate(boomEffect,transform.position,transform.rotation);  //폭팔 이펙트 소환
+        GameObject effect = Instantiate(boomEffect,transform.position,transform.rotation,transform.parent);  //폭팔 이펙트 소환
         effect.transform.localScale = Vector3.one * boomRange /2;  //폭발 범위에 맞게 이펙트 사이즈 변경
 
         //폭발 범위만큼 적 공격
